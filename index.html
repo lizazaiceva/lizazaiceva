@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liza Zaiceva — Visualisation & Design</title>
+<link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --white:#FFFFFF;--steel:#726F70;--baltic:#7AB6D9;--light:#F5F4F3;--dark:#1A1A1A;--mid:#ABABAB;--border:#E8E6E4;
+  --fd:'EB Garamond',serif;--fb:'EB Garamond',serif;--fu:'Inconsolata',monospace;
+}
+html{scroll-behavior:smooth;}
+body{font-family:var(--fb);background:var(--white);color:var(--dark);font-size:16px;line-height:1.7;font-weight:300;overflow-x:hidden;}
+
+.page{display:none;min-height:100vh;z-index:1;}
+.page.active{display:block;}
+.cargo-page-overlay.active{z-index:450;}
+.cargo-page-overlay.active ~ .page{display:none !important;}
+body:has(.cargo-page-overlay.active) .page{display:none !important;}
+
+/* NAV */
+nav{display:flex;align-items:center;justify-content:space-between;padding:1.4rem 4rem;background:linear-gradient(to bottom,var(--baltic),var(--white));border-bottom:0.5px solid var(--border);z-index:600;left:0;right:0;}
+.nav-logo{font-family:var(--fd);font-size:1.2rem;letter-spacing:0.04em;color:var(--dark);cursor:pointer;text-decoration:none;font-style:italic;}
+.nav-links{display:flex;gap:2.5rem;list-style:none;align-items:center;}
+.nav-links a{font-family:var(--fu);font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--dark);text-decoration:none;cursor:pointer;transition:color 0.2s;padding-bottom:2px;border-bottom:1px solid transparent;}
+.nav-links a:hover{color:var(--dark);}
+.nav-links a.active{color:var(--dark);border-bottom-color:var(--dark);}
+
+/* LANG SWITCHER */
+.lang-switch{display:flex;gap:0.4rem;align-items:center;margin-left:1.5rem;padding-left:1.5rem;border-left:0.5px solid var(--border);}
+.lang-btn{font-family:var(--fu);font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--dark);cursor:pointer;padding:0.2rem 0.4rem;border:0.5px solid transparent;transition:all 0.2s;background:none;}
+.lang-btn:hover{color:var(--dark);}
+.lang-btn.active{color:var(--dark);border-color:var(--border);}
+
+.nav-burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;}
+.nav-burger span{display:block;width:22px;height:1px;background:var(--dark);}
+
+/* SHARED */
+section{padding:10rem 6rem;}
+.lbl{font-family:var(--fu);font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--baltic);margin-bottom:1.4rem;display:block;font-weight:400;}
+.ttl{font-family:var(--fd);font-size:clamp(2.8rem,4.5vw,5rem);letter-spacing:0.01em;line-height:1.05;color:var(--dark);margin-bottom:3.5rem;font-weight:500;}
+.ttl-wh{color:var(--white);}
+
+/* PAGE 1 — INTRO */
+.hero{min-height:100vh;display:flex;flex-direction:column;padding-top:80px;background:#fff;}
+.hero-l{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:4rem 4rem 5rem;background:#fff;flex:1;}
+.hero-tag{font-family:var(--fu);font-size:0.75rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--baltic);margin-bottom:1rem;font-weight:400;}
+.hero-name{font-family:var(--fd);font-size:clamp(3.5rem,8.5vw,12rem);line-height:0.95;letter-spacing:-0.01em;color:var(--dark);margin-bottom:1.618rem;font-weight:500;font-style:italic;white-space:nowrap;}
+.hero-desc{font-family:'Courier New',Courier,monospace;font-size:1.2rem;font-weight:400;color:var(--steel);max-width:660px;line-height:1.618;margin-bottom:2.618rem;margin-top:0;}
+.hero-cta{display:inline-flex;align-items:center;gap:0.8rem;font-family:var(--fu);font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;font-weight:500;color:var(--dark);text-decoration:none;border-bottom:1px solid var(--dark);padding-bottom:0.25rem;cursor:pointer;transition:color 0.2s,border-color 0.2s;}
+.hero-cta:hover{color:var(--baltic);border-color:var(--baltic);}
+
+.marquee-bar{background:var(--dark);padding:1.1rem 0;overflow:hidden;white-space:nowrap;}
+.m-track{display:inline-block;animation:mq 26s linear infinite;}
+.m-track span{font-family:var(--fd);font-size:1rem;letter-spacing:0.1em;color:var(--steel);margin:0 2.5rem;font-style:italic;}
+.m-track span.ac{color:var(--baltic);font-style:normal;}
+@keyframes mq{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+
+.intro-projects{background:var(--white);position:relative;}
+.proj-sticky{position:sticky;top:0;height:100vh;background:var(--white);overflow:hidden;display:flex;flex-direction:column;justify-content:center;padding:3rem 0;}
+.proj-grid-5{display:flex;gap:12px;margin-top:1rem;overflow:visible;padding:0 4rem 8px;will-change:transform;}
+.pc{cursor:pointer;flex:0 0 auto;position:relative;overflow:hidden;scroll-snap-align:start;height:58vh;}
+.pc-img{height:100%;overflow:hidden;background:#DEDAD7;}
+.pc-img-in{height:100%;transition:transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94);}
+.pc-img-in img{height:100%;width:auto;display:block;object-fit:cover;}
+.pc:hover .pc-img-in{transform:scale(1.04);}
+.pc-ph{font-family:var(--fu);font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(114,111,112,0.55);}
+.pc-info{position:absolute;bottom:0;left:0;right:0;padding:2rem 1.8rem 1.8rem;background:linear-gradient(to top,rgba(26,26,26,0.85) 0%,transparent 100%);opacity:0;transform:translateY(8px);transition:opacity 0.3s ease,transform 0.3s ease;}
+.pc:hover .pc-info{opacity:1;transform:translateY(0);}
+.pc-cat{font-family:var(--fu);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--baltic);margin-bottom:0.4rem;}
+.pc-name{font-family:var(--fd);font-size:1.1rem;font-weight:500;color:#fff;letter-spacing:0.01em;font-style:italic;}
+.pc-yr{font-family:var(--fu);font-size:0.65rem;color:rgba(255,255,255,0.6);margin-top:0.3rem;}
+.pc-arrow{font-family:var(--fu);font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--baltic);margin-top:0.6rem;}
+
+/* PAGE 2 — PROJECTS */
+.projects-page{padding-top:80px;}
+.proj-list-header{padding:6rem 6rem 2.5rem;}
+.proj-list{padding:0 6rem 9rem;}
+.proj-row{display:grid;grid-template-columns:80px 1fr 180px 60px;align-items:center;gap:2rem;padding:2.5rem 0;border-bottom:0.5px solid var(--border);cursor:pointer;transition:background 0.15s;}
+.proj-row:hover{background:var(--light);padding-left:1rem;margin:0 -1rem;padding-right:1rem;}
+.proj-row-num{font-family:var(--fd);font-size:0.85rem;letter-spacing:0.1em;color:var(--mid);font-style:italic;}
+.proj-row-name{font-size:1.05rem;font-weight:500;color:var(--dark);}
+.proj-row-cat{font-family:var(--fu);font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--steel);}
+.proj-row-yr{font-family:var(--fu);font-size:0.75rem;color:var(--mid);text-align:right;}
+.proj-row-arr{font-size:1.1rem;color:var(--baltic);text-align:right;}
+
+.proj-detail{display:none;padding-top:80px;}
+.proj-detail.open{display:block;}
+.pd-back{display:inline-flex;align-items:center;gap:0.6rem;font-family:var(--fu);font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--steel);cursor:pointer;padding:3rem 6rem 0;transition:color 0.2s;}
+.pd-back:hover{color:var(--dark);}
+.pd-hero{display:grid;grid-template-columns:1fr 1fr;gap:0;min-height:60vh;}
+.pd-hero-img{background:#DEDAD7;display:flex;align-items:center;justify-content:center;}
+.pd-hero-info{padding:5.5rem;display:flex;flex-direction:column;justify-content:center;background:var(--light);}
+.pd-hero-cat{font-family:var(--fu);font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--baltic);margin-bottom:1.4rem;}
+.pd-hero-title{font-family:var(--fd);font-size:clamp(2rem,3.5vw,3.5rem);letter-spacing:0.01em;line-height:1.1;color:var(--dark);margin-bottom:2.5rem;font-weight:500;font-style:italic;}
+.pd-hero-meta{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;margin-bottom:3rem;}
+.pd-meta-lbl{font-family:var(--fu);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--baltic);margin-bottom:0.4rem;}
+.pd-meta-val{font-size:0.9rem;font-weight:400;color:var(--dark);}
+.pd-desc{font-size:0.95rem;font-weight:300;color:var(--steel);line-height:1.9;}
+.pd-images{padding:5rem 6rem;display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;background:var(--white);}
+.pd-img-box{background:#DEDAD7;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;}
+.pd-img-box.wide{grid-column:span 2;aspect-ratio:21/9;}
+.pd-img-ph{font-family:var(--fu);font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(114,111,112,0.5);}
+
+/* PAGE 3 — ABOUT */
+.about-hero{display:grid;grid-template-columns:auto 1fr;height:calc(100vh - 70px);overflow:hidden;}
+.about-img-wrap{background:#f5f4f3;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;padding:0;overflow:hidden;}
+.about-intro{padding:2.5rem 4rem;display:flex;flex-direction:column;justify-content:center;background:var(--light);overflow:hidden;text-align:center;}
+.about-intro p{font-family:'Courier New',Courier,monospace;font-size:0.88rem;font-weight:400;color:var(--steel);line-height:1.7;margin-bottom:1rem;max-width:52ch;margin-left:auto;margin-right:auto;text-align:center;}
+.about-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:1.5rem;padding-top:1.5rem;border-top:0.5px solid #D4D0CD;}
+.stat-n{font-family:var(--fd);font-size:2rem;letter-spacing:0.01em;color:var(--dark);line-height:1;font-weight:500;}
+.stat-l{font-family:var(--fu);font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--steel);margin-top:0.4rem;}
+.photos-row{padding:6rem;background:var(--white);display:grid;grid-template-columns:repeat(3,1fr);gap:2.5rem;}
+.photo-box{background:#DEDAD7;aspect-ratio:3/4;display:flex;align-items:flex-end;padding:1.5rem;}
+.photo-box-lbl{font-family:var(--fu);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--steel);}
+.services-about{background:var(--dark);padding:9rem 6rem;}
+.services-about .lbl{color:var(--baltic);}
+.services-about .ttl{color:var(--white);}
+.about-intro .ttl{font-style:italic;}
+.contact-ttl{font-style:italic;font-size:clamp(1.4rem,2.8vw,2.4rem);white-space:nowrap;margin-bottom:1rem;}
+.proj-list-header .ttl{font-style:italic;}
+.srv-grid{display:grid;grid-template-columns:repeat(3,1fr);border:0.5px solid #2e2e2e;}
+.srv-item{padding:3.5rem;border-right:0.5px solid #2e2e2e;border-bottom:0.5px solid #2e2e2e;transition:background 0.25s;}
+.srv-item:hover{background:#222;}
+.srv-item:nth-child(3n){border-right:none;}
+.srv-num{font-family:var(--fd);font-size:1rem;letter-spacing:0.05em;color:var(--baltic);margin-bottom:1.8rem;font-style:italic;}
+.srv-name{font-size:1rem;font-weight:500;color:var(--white);margin-bottom:1.2rem;}
+.srv-desc{font-size:0.85rem;font-weight:300;color:var(--steel);line-height:1.9;}
+
+/* PAGE 4 — CONTACT */
+.contact-page{padding-top:0;}
+.contact-split{display:grid;grid-template-columns:1fr 1fr;min-height:calc(100vh - 70px);}
+.contact-l{padding:3rem 3.5rem;background:var(--light);display:flex;flex-direction:column;justify-content:center;}
+.contact-l p{font-family:'Courier New',Courier,monospace;font-size:0.82rem;font-weight:400;color:var(--steel);line-height:1.6;margin-bottom:1.5rem;max-width:380px;}
+.cline{display:flex;align-items:baseline;gap:1.5rem;padding:0.7rem 0;border-bottom:0.5px solid #D4D0CD;}
+.cline-lbl{font-family:var(--fu);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--baltic);min-width:90px;}
+.cline-val{font-size:0.85rem;color:var(--dark);font-weight:400;}
+.contact-r{padding:3rem 3.5rem;background:var(--white);display:flex;flex-direction:column;justify-content:center;}
+.cf{display:flex;flex-direction:column;gap:0.9rem;}
+.fg{display:flex;flex-direction:column;gap:0.5rem;}
+.fg label{font-family:var(--fu);font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--steel);}
+.fg input,.fg textarea,.fg select{width:100%;padding:1rem 1.2rem;background:var(--light);border:0.5px solid #D4D0CD;font-family:var(--fb);font-size:0.9rem;font-weight:300;color:var(--dark);outline:none;transition:border-color 0.2s;border-radius:0;appearance:none;-webkit-appearance:none;}
+.fg input:focus,.fg textarea:focus,.fg select:focus{border-color:var(--baltic);background:var(--white);}
+.fg textarea{min-height:150px;resize:vertical;}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+.btn-sub{display:inline-flex;align-items:center;gap:0.7rem;padding:1.1rem 2.8rem;background:var(--dark);color:var(--white);font-family:var(--fu);font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:500;border:none;cursor:pointer;transition:background 0.2s;align-self:flex-start;}
+.btn-sub:hover{background:var(--baltic);}
+.btn-sub:disabled{opacity:0.5;cursor:not-allowed;}
+.social-row{display:flex;gap:1.2rem;margin-top:2.5rem;}
+.social-btn{display:inline-flex;align-items:center;color:var(--dark);text-decoration:none;opacity:0.7;transition:opacity 0.2s;}
+.social-btn:hover{opacity:1;}
+.form-success{display:none;padding:2rem;background:var(--light);font-family:'Courier New',Courier,monospace;font-size:0.9rem;color:var(--dark);line-height:1.6;}
+.form-success.show{display:block;}
+.form-error{display:none;padding:0.8rem 1rem;background:#fff0f0;font-family:'Courier New',Courier,monospace;font-size:0.8rem;color:#c00;margin-bottom:1rem;}
+.form-error.show,[data-fs-error]:not(:empty){display:block;}
+.fs-field-err{font-family:'Courier New',Courier,monospace;font-size:0.75rem;color:#c00;display:block;margin-top:0.25rem;}
+[data-fs-success]:not([style*="display: block"]){display:none;}
+
+/* FOOTER */
+footer{background:var(--dark);padding:3.5rem 6rem;display:flex;align-items:center;justify-content:space-between;border-top:0.5px solid #2e2e2e;}
+.fl{font-family:var(--fd);font-size:1.1rem;letter-spacing:0.04em;color:var(--white);cursor:pointer;font-style:italic;}
+.flinks{display:flex;gap:2.5rem;list-style:none;}
+.flinks a{font-family:var(--fu);font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--steel);text-decoration:none;cursor:pointer;transition:color 0.2s;}
+.flinks a:hover{color:var(--white);}
+.fcopy{font-family:var(--fu);font-size:0.65rem;color:#444;letter-spacing:0.04em;}
+
+/* MOBILE */
+@media(max-width:900px){
+  nav{padding:1.2rem 1.5rem;flex-wrap:wrap;gap:0.5rem;}
+  .nav-links{display:none;order:3;width:100%;}
+  .nav-burger{display:flex;}
+  .nav-links.open{display:flex;flex-direction:column;position:fixed;top:60px;left:0;right:0;background:var(--white);padding:2rem 1.5rem;gap:1.5rem;border-bottom:0.5px solid var(--border);z-index:199;}
+  .lang-switch{margin-left:auto;padding-left:0;border-left:none;}
+  section,.intro-projects,.proj-list-header,.proj-list,.pd-images,.photos-row,.services-about,.contact-l,.contact-r{padding:4rem 1.5rem;}
+  .hero-l{padding:4rem 1.5rem 4rem;}
+  .hero-name{font-size:clamp(2.5rem,12vw,6rem);white-space:normal;line-height:1;}
+  .proj-grid-5{gap:8px;}
+  .pc{height:50vw;}
+  .proj-list-header{padding:4rem 1.5rem 2rem;}
+  .proj-list{padding:0 1.5rem 5rem;}
+  .proj-row{grid-template-columns:40px 1fr 40px;padding:2rem 0;}
+  .proj-row-yr{display:none;}
+  .pd-back{padding:2rem 1.5rem 0;}
+  .pd-hero{grid-template-columns:1fr;}
+  .pd-hero-info{padding:3rem 1.5rem;}
+  .pd-images{grid-template-columns:1fr;padding:3rem 1.5rem;gap:1.5rem;}
+  .pd-img-box.wide{grid-column:span 1;aspect-ratio:4/3;}
+  .about-hero{grid-template-columns:1fr;}
+  .about-img-wrap{min-height:50vw;}
+  .about-intro{padding:4rem 1.5rem;}
+  .photos-row{grid-template-columns:1fr 1fr;gap:1.5rem;padding:3rem 1.5rem;}
+  .srv-grid{grid-template-columns:1fr;}
+  .srv-item{border-right:none;}
+  .contact-split{grid-template-columns:1fr;}
+  .fr{grid-template-columns:1fr;}
+  footer{flex-direction:column;gap:1.5rem;text-align:left;padding:2.5rem 1.5rem;}
+  .about-stats{grid-template-columns:repeat(3,1fr);}
+}
+
+/* ── CARGO PROJECT OVERLAY ── */
+.cargo-page-overlay{display:none;position:fixed;top:80px;left:0;right:0;bottom:0;background:#fff;overflow-y:auto;z-index:400;}
+.cargo-page-overlay.active{display:block;}
+.cargo-nav-frame{display:none;position:fixed;inset:0;pointer-events:none;z-index:500;}
+.cargo-nav-frame.active{display:block;}
+.cargo-nav-frame a,.cargo-nav-frame span{
+  position:absolute;pointer-events:all;
+  font-family:'Courier New',Courier,monospace;
+  font-size:11px;font-weight:400;letter-spacing:0.08em;
+  text-transform:uppercase;color:#111;text-decoration:none;
+  cursor:pointer;line-height:1;white-space:nowrap;
+}
+.cargo-nav-frame a:hover{opacity:0.45;}
+.cnav-home{left:28px;top:50%;transform:translateY(-50%);}
+.cnav-proj{right:28px;top:50%;transform:translateY(-50%);}
+.cnav-prev{left:28px;bottom:28px;}
+.cnav-next{right:28px;bottom:28px;}
+.cargo-content{width:62%;max-width:760px;min-width:320px;margin:0 auto;padding:100px 0 140px;}
+.cp-header{text-align:center;margin-bottom:90px;}
+.cp-eyebrow{font-family:'Courier New',Courier,monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#999;margin-bottom:1.2rem;}
+.cp-title{font-family:'EB Garamond',serif;font-size:clamp(2.4rem,4.5vw,4rem);font-weight:400;font-style:italic;color:#111;line-height:1.1;letter-spacing:0.01em;margin-bottom:1.4rem;}
+.cp-divider{width:40px;height:1px;background:#ddd;margin:2.5rem auto;}
+.cp-desc{font-family:'Courier New',Courier,monospace;font-size:11px;letter-spacing:0.04em;color:#888;line-height:1.9;max-width:480px;margin:0 auto;}
+.cp-img-block{margin-bottom:90px;}
+.cp-img-block img{width:100%;height:auto;display:block;}
+.cp-caption{margin-top:22px;text-align:center;font-family:'Courier New',Courier,monospace;font-size:11px;line-height:1.9;letter-spacing:0.03em;}
+.cp-caption .cl1{color:#C85020;}
+.cp-caption .cl2{color:#C85020;}
+.cp-caption .cl3{color:#888;}
+@media(max-width:800px){
+  .cnav-home{left:14px;}.cnav-proj{right:14px;}.cnav-prev{left:14px;bottom:14px;}.cnav-next{right:14px;bottom:14px;}
+  .cargo-content{width:88%;padding:80px 0 120px;}.cp-img-block{margin-bottom:60px;}
+}
+
+/* align all content to nav logo (4rem from left) */
+.hero-l,section,.intro-projects,.proj-list-header,.proj-list,
+.pd-back,.pd-hero-info,.pd-images,.photos-row,.services-about,
+.contact-l,.contact-r,footer{
+  padding-left:4rem;
+  padding-right:4rem;
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <a class="nav-logo" onclick="showPage('p1')" data-i18n="brand.name">LIZA ZAICEVA</a>
+  <ul class="nav-links" id="nav-links">
+    <li><a onclick="showPage('p1')" data-page="p1" data-i18n="nav.home">Home</a></li>
+    <li><a onclick="showPage('p2')" data-page="p2" data-i18n="nav.projects">Projects</a></li>
+    <li><a onclick="showPage('p3')" data-page="p3" data-i18n="nav.about">About</a></li>
+    <li><a onclick="showPage('p4')" data-page="p4" data-i18n="nav.contact">Contact</a></li>
+    <li>
+      <div class="lang-switch">
+        <button class="lang-btn active" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" onclick="setLang('nl')">NL</button>
+        <button class="lang-btn" onclick="setLang('ru')">RU</button>
+      </div>
+    </li>
+  </ul>
+  <div class="lang-switch" id="lang-switch-mobile" style="display:flex;">
+    <button class="lang-btn active" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('nl')">NL</button>
+    <button class="lang-btn" onclick="setLang('ru')">RU</button>
+  </div>
+  <div class="nav-burger" id="burger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- PAGE 1 — INTRO -->
+<div class="page active" id="p1">
+  <div class="hero">
+    <div class="hero-l">
+      <span class="hero-tag" data-i18n="hero.tag">Architectural Visualisation & Design — Netherlands</span>
+      <h1 class="hero-name" data-i18n="brand.hero">LIZA ZAICEVA</h1>
+      <p class="hero-desc" data-i18n="hero.desc">Freelance architectural designer based in Utrecht, Netherlands. Creating compelling architectural visuals, competition entries, spatial designs, exhibition design, stage design, and interior design — working with architects, developers, and private clients worldwide.</p>
+      <a class="hero-cta" onclick="showPage('p2')" data-i18n="hero.cta">View all projects &nbsp;→</a>
+    </div>
+  </div>
+
+  <div class="marquee-bar" aria-hidden="true">
+    <div class="m-track" id="marquee-track">
+      <span>Visualisation</span><span class="ac">·</span><span>Competition</span><span class="ac">·</span><span>Interior Design</span><span class="ac">·</span><span>Spatial Design</span><span class="ac">·</span><span>3D Renders</span><span class="ac">·</span><span>BIM</span><span class="ac">·</span><span>Architecture</span><span class="ac">·</span><span>Concept Design</span><span class="ac">·</span><span>Visualisation</span><span class="ac">·</span><span>Competition</span><span class="ac">·</span><span>Interior Design</span><span class="ac">·</span><span>Spatial Design</span><span class="ac">·</span><span>3D Renders</span><span class="ac">·</span><span>BIM</span><span class="ac">·</span><span>Architecture</span><span class="ac">·</span><span>Concept Design</span><span class="ac">·</span>
+    </div>
+  </div>
+
+  <div class="intro-projects">
+    <div class="proj-sticky">
+    <h2 class="ttl" style="font-size:clamp(1.87rem,3vw,3.33rem);text-transform:lowercase;margin-bottom:1.5rem;" data-i18n="projects.title">PROJECTS</h2>
+    <div class="proj-grid-5">
+      <div class="pc" onclick="openCargoProject(0)">
+        <div class="pc-img"><div class="pc-img-in"><img src="images/00-head-images/01-moving-stories-head.jpg" alt="Moving Stories Antwerp"></div></div>
+        <div class="pc-info">
+          <div class="pc-cat" data-i18n="p0.cat">Graduation Project</div>
+          <div class="pc-name" data-i18n="p0.name">Moving Stories — Antwerp</div>
+          <div class="pc-yr">2025 · Antwerp, Belgium</div>
+          <div class="pc-arrow" data-i18n="projects.view">View project →</div>
+        </div>
+      </div>
+      <div class="pc" onclick="openCargoProject(1)">
+        <div class="pc-img"><div class="pc-img-in"><img src="images/00-head-images/02-south-city-naples-head.jpg" alt="South City Entrance Naples"></div></div>
+        <div class="pc-info">
+          <div class="pc-cat" data-i18n="p1.cat">Competition</div>
+          <div class="pc-name" data-i18n="p1.name">South City Entrance — Naples</div>
+          <div class="pc-yr">2024 · Naples, Italy</div>
+          <div class="pc-arrow" data-i18n="projects.view">View project →</div>
+        </div>
+      </div>
+      <div class="pc" onclick="openCargoProject(2)">
+        <div class="pc-img"><div class="pc-img-in"><img src="images/00-head-images/03-moramanga-church-head.jpg" alt="Moramanga Church Madagascar"></div></div>
+        <div class="pc-info">
+          <div class="pc-cat" data-i18n="p2.cat">Competition</div>
+          <div class="pc-name" data-i18n="p2.name">Moramanga Church — Madagascar</div>
+          <div class="pc-yr">2024 · Madagascar</div>
+          <div class="pc-arrow" data-i18n="projects.view">View project →</div>
+        </div>
+      </div>
+      <div class="pc" onclick="openCargoProject(3)">
+        <div class="pc-img"><div class="pc-img-in"><img src="images/00-head-images/04-leiden-foodlabs-head.jpg" alt="Leiden FOODLABS"></div></div>
+        <div class="pc-info">
+          <div class="pc-cat" data-i18n="p3.cat">Academic Project</div>
+          <div class="pc-name" data-i18n="p3.name">Leiden FOODLABS</div>
+          <div class="pc-yr">2024 · Leiden, Netherlands</div>
+          <div class="pc-arrow" data-i18n="projects.view">View project →</div>
+        </div>
+      </div>
+      <div class="pc" onclick="openCargoProject(4)">
+        <div class="pc-img"><div class="pc-img-in"><img src="images/00-head-images/05-internship-elephant-head.jpg" alt="Elephant Studio Internship"></div></div>
+        <div class="pc-info">
+          <div class="pc-cat" data-i18n="p4.cat">Professional</div>
+          <div class="pc-name" data-i18n="p4.name">Internship — Elephant Studio</div>
+          <div class="pc-yr">2024–2025 · Amsterdam</div>
+          <div class="pc-arrow" data-i18n="projects.view">View project →</div>
+        </div>
+      </div>
+      <div class="pc" onclick="openCargoProject(5)">
+        <div class="pc-img"><div class="pc-img-in"><img src="images/00-head-images/06-birdwatching-spot-head.jpg" alt="Mood for Wood Birdwatching Platform"></div></div>
+        <div class="pc-info">
+          <div class="pc-cat" data-i18n="p5.cat">Workshop · Built</div>
+          <div class="pc-name" data-i18n="p5.name">Mood for Wood — Birdwatching Platform</div>
+          <div class="pc-yr">2021 · Poznań, Poland</div>
+          <div class="pc-arrow" data-i18n="projects.view">View project →</div>
+        </div>
+      </div>
+      <div class="pc" onclick="openCargoProject(6)">
+        <div class="pc-img"><div class="pc-img-in"><img src="images/00-head-images/07-Luminary-fintec-head.jpg" alt="Luminary Fintech Exhibition"></div></div>
+        <div class="pc-info">
+          <div class="pc-cat" data-i18n="p6.cat">Exhibition Design</div>
+          <div class="pc-name" data-i18n="p6.name">Luminary — Fintech Exhibition</div>
+          <div class="pc-yr">2025</div>
+          <div class="pc-arrow" data-i18n="projects.view">View project →</div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+
+  <footer>
+    <span class="fl" onclick="showPage('p1')" data-i18n="brand.name">LIZA ZAICEVA</span>
+    <ul class="flinks">
+      <li><a onclick="showPage('p2')" data-i18n="nav.projects">Projects</a></li>
+      <li><a onclick="showPage('p3')" data-i18n="nav.about">About</a></li>
+      <li><a onclick="showPage('p4')" data-i18n="nav.contact">Contact</a></li>
+    </ul>
+    <span class="fcopy">© 2025 Liza Zaiceva</span>
+  </footer>
+</div>
+
+<!-- PAGE 2 — PROJECTS -->
+<div class="page" id="p2">
+  <div id="proj-list-view" class="projects-page">
+    <div class="proj-list-header">
+      <span class="lbl" data-i18n="projects.label2">All work</span>
+      <h2 class="ttl" data-i18n="projects.title">PROJECTS</h2>
+    </div>
+    <div class="proj-list">
+      <div class="proj-row" onclick="openCargoProject(0)">
+        <div class="proj-row-num">01</div>
+        <div><div class="proj-row-name" data-i18n="p0.name">Moving Stories — Antwerp</div><div class="proj-row-cat" data-i18n="p0.cat">Graduation Project</div></div>
+        <div class="proj-row-yr">2025 · Antwerp, Belgium</div>
+        <div class="proj-row-arr">→</div>
+      </div>
+      <div class="proj-row" onclick="openCargoProject(1)">
+        <div class="proj-row-num">02</div>
+        <div><div class="proj-row-name" data-i18n="p1.name">South City Entrance — Naples</div><div class="proj-row-cat" data-i18n="p1.cat">Competition</div></div>
+        <div class="proj-row-yr">2024 · Naples, Italy</div>
+        <div class="proj-row-arr">→</div>
+      </div>
+      <div class="proj-row" onclick="openCargoProject(2)">
+        <div class="proj-row-num">03</div>
+        <div><div class="proj-row-name" data-i18n="p2.name">Moramanga Church — Madagascar</div><div class="proj-row-cat" data-i18n="p2.cat">Competition</div></div>
+        <div class="proj-row-yr">2024 · Madagascar</div>
+        <div class="proj-row-arr">→</div>
+      </div>
+      <div class="proj-row" onclick="openCargoProject(3)">
+        <div class="proj-row-num">04</div>
+        <div><div class="proj-row-name" data-i18n="p3.name">Leiden FOODLABS</div><div class="proj-row-cat" data-i18n="p3.cat">Academic Project</div></div>
+        <div class="proj-row-yr">2024 · Leiden, Netherlands</div>
+        <div class="proj-row-arr">→</div>
+      </div>
+      <div class="proj-row" onclick="openCargoProject(4)">
+        <div class="proj-row-num">05</div>
+        <div><div class="proj-row-name" data-i18n="p4.name">Internship — Elephant Studio</div><div class="proj-row-cat" data-i18n="p4.cat">Professional</div></div>
+        <div class="proj-row-yr">2024–2025 · Amsterdam</div>
+        <div class="proj-row-arr">→</div>
+      </div>
+      <div class="proj-row" onclick="openCargoProject(5)">
+        <div class="proj-row-num">06</div>
+        <div><div class="proj-row-name" data-i18n="p5.name">Mood for Wood — Birdwatching Platform</div><div class="proj-row-cat" data-i18n="p5.cat">Workshop · Built</div></div>
+        <div class="proj-row-yr">2021 · Poznań, Poland</div>
+        <div class="proj-row-arr">→</div>
+      </div>
+      <div class="proj-row" onclick="openCargoProject(6)">
+        <div class="proj-row-num">07</div>
+        <div><div class="proj-row-name" data-i18n="p6.name">Luminary — Fintech Exhibition</div><div class="proj-row-cat" data-i18n="p6.cat">Exhibition Design</div></div>
+        <div class="proj-row-yr">2025</div>
+        <div class="proj-row-arr">→</div>
+      </div>
+    </div>
+    <footer>
+      <span class="fl" onclick="showPage('p1')" data-i18n="brand.name">LIZA ZAICEVA</span>
+      <ul class="flinks">
+        <li><a onclick="showPage('p2')" data-i18n="nav.projects">Projects</a></li>
+        <li><a onclick="showPage('p3')" data-i18n="nav.about">About</a></li>
+        <li><a onclick="showPage('p4')" data-i18n="nav.contact">Contact</a></li>
+      </ul>
+      <span class="fcopy">© 2025 Liza Zaiceva</span>
+    </footer>
+  </div>
+
+  <div id="proj-detail-view" class="proj-detail">
+    <div class="pd-back" onclick="closeProject()" data-i18n="projects.back">← Back to projects</div>
+    <div class="pd-hero">
+      <div class="pd-hero-img"><span class="pc-ph" data-i18n="placeholder.img">Replace with main project image</span></div>
+      <div class="pd-hero-info">
+        <div class="pd-hero-cat" id="pd-cat"></div>
+        <h2 class="pd-hero-title" id="pd-title"></h2>
+        <div class="pd-hero-meta" id="pd-meta"></div>
+        <p class="pd-desc" id="pd-desc"></p>
+      </div>
+    </div>
+    <div class="pd-images">
+      <div class="pd-img-box wide"><span class="pd-img-ph" data-i18n="placeholder.img">Replace with wide project image</span></div>
+      <div class="pd-img-box"><span class="pd-img-ph" data-i18n="placeholder.img">Replace with detail image</span></div>
+      <div class="pd-img-box"><span class="pd-img-ph" data-i18n="placeholder.img">Replace with detail image</span></div>
+    </div>
+    <footer>
+      <span class="fl" onclick="showPage('p1')" data-i18n="brand.name">LIZA ZAICEVA</span>
+      <ul class="flinks">
+        <li><a onclick="showPage('p2')" data-i18n="nav.projects">Projects</a></li>
+        <li><a onclick="showPage('p3')" data-i18n="nav.about">About</a></li>
+        <li><a onclick="showPage('p4')" data-i18n="nav.contact">Contact</a></li>
+      </ul>
+      <span class="fcopy">© 2025 Liza Zaiceva</span>
+    </footer>
+  </div>
+</div>
+
+<!-- PAGE 3 — ABOUT -->
+<div class="page" id="p3">
+  <div class="about-hero">
+    <div class="about-img-wrap" style="position:relative;overflow:hidden;padding:0;background:#f5f4f3;">
+      <img src="my photos/photo_5820989865586265895_y.jpg" style="height:100%;width:auto;object-fit:contain;object-position:left center;display:block;">
+    </div>
+    <div class="about-intro">
+      <span class="lbl" data-i18n="about.label">About me</span>
+      <h2 class="ttl" data-i18n="about.title">Vision & Approach</h2>
+      <p data-i18n="about.p1">I am an architectural designer specialising in visualisation, competition support, and spatial design. My work connects creative ambition with technical precision — whether developing a competition entry or designing an interior from scratch.</p>
+      <p data-i18n="about.p2">Clients range from architectural offices seeking visualisation support to private individuals looking for an interior or spatial design. I work across the full design process, from initial concept to final deliverables.</p>
+      <p data-i18n="about.p3">Based in Utrecht, Netherlands. Available for projects locally and internationally.</p>
+      <div class="about-stats">
+        <div><div class="stat-n">5+</div><div class="stat-l" data-i18n="about.stat1">Years experience</div></div>
+        <div><div class="stat-n">7+</div><div class="stat-l" data-i18n="about.stat2">Countries</div></div>
+        <div><div class="stat-n">NL</div><div class="stat-l" data-i18n="about.stat3">Based in Utrecht</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="photos-row">
+    <div class="photo-box" style="padding:0;overflow:hidden;"><img src="my photos/photo_5820989865586265894_y.jpg" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+    <div class="photo-box" style="padding:0;overflow:hidden;"><img src="my photos/photo_5820989865586265896_y.jpg" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+    <div class="photo-box" style="padding:0;overflow:hidden;"><img src="my photos/photo_5820989865586265897_y.jpg" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+  </div>
+  <div class="services-about">
+    <span class="lbl" data-i18n="services.label">What I offer</span>
+    <h2 class="ttl ttl-wh" data-i18n="services.title">SERVICES</h2>
+    <div class="srv-grid">
+      <div class="srv-item"><div class="srv-num">01</div><div class="srv-name" data-i18n="s1.name">Architectural Visualisation</div><p class="srv-desc" data-i18n="s1.desc">3D renders, walkthroughs, competition boards, and presentation visuals tailored to the design intent.</p></div>
+      <div class="srv-item"><div class="srv-num">02</div><div class="srv-name" data-i18n="s2.name">Competition Entries</div><p class="srv-desc" data-i18n="s2.desc">Full support for architecture competitions: concept development, design narrative, drawings, and submission boards.</p></div>
+      <div class="srv-item"><div class="srv-num">03</div><div class="srv-name" data-i18n="s3.name">Interior Design</div><p class="srv-desc" data-i18n="s3.desc">Space planning, material and finish selection, furniture layout, and interior fit-out from concept to specification.</p></div>
+      <div class="srv-item"><div class="srv-num">04</div><div class="srv-name" data-i18n="s4.name">Spatial Design</div><p class="srv-desc" data-i18n="s4.desc">Concept-driven spatial solutions for residential, commercial, and public contexts at all scales.</p></div>
+      <div class="srv-item"><div class="srv-num">05</div><div class="srv-name" data-i18n="s5.name">Technical Drawings</div><p class="srv-desc" data-i18n="s5.desc">Floor plans, sections, elevations, and construction details for design development and permit packages.</p></div>
+      <div class="srv-item"><div class="srv-num">06</div><div class="srv-name" data-i18n="s6.name">BIM & 3D Modelling</div><p class="srv-desc" data-i18n="s6.desc">Revit and ArchiCAD models for design development, coordination, and documentation workflows.</p></div>
+    </div>
+  </div>
+  <footer>
+    <span class="fl" onclick="showPage('p1')" data-i18n="brand.name">LIZA ZAICEVA</span>
+    <ul class="flinks">
+      <li><a onclick="showPage('p2')" data-i18n="nav.projects">Projects</a></li>
+      <li><a onclick="showPage('p3')" data-i18n="nav.about">About</a></li>
+      <li><a onclick="showPage('p4')" data-i18n="nav.contact">Contact</a></li>
+    </ul>
+    <span class="fcopy">© 2025 Liza Zaiceva</span>
+  </footer>
+</div>
+
+<!-- PAGE 4 — CONTACT -->
+<div class="page" id="p4">
+  <div class="contact-page">
+    <div class="contact-split">
+      <div class="contact-l">
+        <span class="lbl" data-i18n="contact.label">Get in touch</span>
+        <h2 class="ttl contact-ttl" data-i18n="contact.title">Let's Work Together</h2>
+        <p data-i18n="contact.intro">Have a project in mind? I'd love to hear about it. Fill in the form or reach out directly — I typically respond within one working day.</p>
+        <div>
+          <div class="cline"><span class="cline-lbl" data-i18n="contact.email">Email</span><span class="cline-val">minakis@inbox.lv</span></div>
+          <div class="cline"><span class="cline-lbl" data-i18n="contact.phone">Phone</span><span class="cline-val">+31 (0) 6 39 05 11 61</span></div>
+          <div class="cline"><span class="cline-lbl" data-i18n="contact.location">Location</span><span class="cline-val">Utrecht, Netherlands</span></div>
+        </div>
+        <div class="social-row">
+          <a class="social-btn" href="https://www.instagram.com/zaaaytseva/" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+          <a class="social-btn" href="https://www.linkedin.com/in/jelizaveta-zaiceva-75b25a2a3/?locale=en" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="contact-r">
+        <h3 class="ttl contact-ttl" style="margin-bottom:1.2rem;" data-i18n="contact.formtitle">Send a Message</h3>
+        <div data-fs-success class="form-success">Message sent — thank you! I'll get back to you within one working day.</div>
+        <div data-fs-error class="form-error"></div>
+        <form id="contact-form" class="cf" method="POST">
+          <div class="fr">
+            <div class="fg">
+              <label data-i18n="form.name">Name</label>
+              <input type="text" name="name" placeholder="" data-i18n-ph="form.nameph" data-fs-field required>
+              <span data-fs-error="name" class="fs-field-err"></span>
+            </div>
+            <div class="fg">
+              <label data-i18n="form.email">Email</label>
+              <input type="email" name="email" placeholder="your@email.com" data-fs-field required>
+              <span data-fs-error="email" class="fs-field-err"></span>
+            </div>
+          </div>
+          <div class="fg">
+            <label data-i18n="form.service">Project type</label>
+            <select name="service">
+              <option value="" data-i18n="form.serviceopt">Select a service</option>
+              <option data-i18n="form.opt1">Architectural visualisation</option>
+              <option data-i18n="form.opt2">Competition entry</option>
+              <option data-i18n="form.opt3">Interior design</option>
+              <option data-i18n="form.opt4">Spatial design</option>
+              <option data-i18n="form.opt5">Technical drawings</option>
+              <option data-i18n="form.opt6">BIM / 3D modelling</option>
+              <option data-i18n="form.opt7">Other</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label data-i18n="form.budget">Budget range</label>
+            <select name="budget">
+              <option value="" data-i18n="form.budgetopt">Select budget</option>
+              <option>Under €2,500</option>
+              <option>€2,500 – €10,000</option>
+              <option>€10,000 – €50,000</option>
+              <option>€50,000+</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label data-i18n="form.message">Message</label>
+            <textarea name="message" placeholder="" data-i18n-ph="form.messageph" data-fs-field></textarea>
+            <span data-fs-error="message" class="fs-field-err"></span>
+          </div>
+          <button type="submit" class="btn-sub" data-fs-submit-btn data-i18n="form.submit">Send message →</button>
+        </form>
+      </div>
+    </div>
+    <footer>
+      <span class="fl" onclick="showPage('p1')" data-i18n="brand.name">LIZA ZAICEVA</span>
+      <ul class="flinks">
+        <li><a onclick="showPage('p2')" data-i18n="nav.projects">Projects</a></li>
+        <li><a onclick="showPage('p3')" data-i18n="nav.about">About</a></li>
+        <li><a onclick="showPage('p4')" data-i18n="nav.contact">Contact</a></li>
+      </ul>
+      <span class="fcopy">© 2025 Liza Zaiceva</span>
+    </footer>
+  </div>
+</div>
+
+<!-- ── SHARED CARGO NAV FRAME ── -->
+<div class="cargo-nav-frame" id="cargo-nav-frame">
+  <a class="cnav-home" onclick="closeCargoPage()" data-i18n="brand.name">LIZA ZAICEVA</a>
+  <span class="cnav-proj" id="cnav-proj-label"></span>
+  <a class="cnav-prev" id="cnav-prev"></a>
+  <a class="cnav-next" id="cnav-next"></a>
+</div>
+
+<!-- ── MOVING STORIES — PROJECT 01 ── -->
+<div class="cargo-page-overlay" id="cargo-p0">
+  <div class="cargo-content">
+
+    <div class="cp-header">
+      <div class="cp-eyebrow">01 / 06 &nbsp;·&nbsp; Graduation Project &nbsp;·&nbsp; 2025</div>
+      <div class="cp-title">Moving Stories<br>— Antwerp</div>
+      <div class="cp-divider"></div>
+      <div class="cp-desc">A graduation project exploring how architecture can give spatial form to the personal memories of migrant communities. Set in Logieweg – Blikfabriek, a post-industrial district in the south of Antwerp. Co-housing clusters around shared courtyards — translating memory, ritual, and community into built space.</div>
+    </div>
+
+    <div class="cp-img-block">
+      <img src="images/01-moving-stories/render-courtyard.jpg" alt="Shared courtyard render">
+      <div class="cp-caption">
+        <div class="cl1">Liza Zaiceva — Moving Stories, Antwerp</div>
+        <div class="cl2">Shared Courtyard — Architectural Render</div>
+        <div class="cl3">Antwerp, Belgium, 2025</div>
+      </div>
+    </div>
+
+    <div class="cp-img-block">
+      <img src="images/01-moving-stories/render-shared-interior-workshop.jpg" alt="Shared community interior">
+      <div class="cp-caption">
+        <div class="cl1">Liza Zaiceva — Moving Stories, Antwerp</div>
+        <div class="cl2">Shared Interior — Community Workshop Space</div>
+        <div class="cl3">Antwerp, Belgium, 2025</div>
+      </div>
+    </div>
+
+    <div class="cp-img-block">
+      <img src="images/01-moving-stories/concept-story-panels-and-apartment-axo.jpg" alt="Concept narrative panels">
+      <div class="cp-caption">
+        <div class="cl1">Liza Zaiceva — Moving Stories, Antwerp</div>
+        <div class="cl2">How Do We Translate Stories Into Architecture? — Concept</div>
+        <div class="cl3">Narrative Panels and Apartment Axonometric</div>
+      </div>
+    </div>
+
+    <div class="cp-img-block">
+      <img src="images/01-moving-stories/floor-plan-ground.jpg" alt="Ground floor plan">
+      <div class="cp-caption">
+        <div class="cl1">Liza Zaiceva — Moving Stories, Antwerp</div>
+        <div class="cl2">Ground Floor Plan — Co-Housing Cluster</div>
+        <div class="cl3">Scale 1:200 · Antwerp, Belgium</div>
+      </div>
+    </div>
+
+    <div class="cp-img-block">
+      <img src="images/01-moving-stories/elevation-and-plan-community-building.jpg" alt="Community building elevation and plan">
+      <div class="cp-caption">
+        <div class="cl1">Liza Zaiceva — Moving Stories, Antwerp</div>
+        <div class="cl2">Community Building — Elevation and Floor Plan</div>
+        <div class="cl3">Technical Drawing · Antwerp, Belgium, 2025</div>
+      </div>
+    </div>
+
+    <div class="cp-img-block">
+      <img src="images/01-moving-stories/design-arrangement-diagrams.jpg" alt="Building arrangement studies">
+      <div class="cp-caption">
+        <div class="cl1">Liza Zaiceva — Moving Stories, Antwerp</div>
+        <div class="cl2">Building Arrangement — Axonometric Studies</div>
+        <div class="cl3">Design Development · Antwerp, Belgium</div>
+      </div>
+    </div>
+
+    <div class="cp-img-block">
+      <img src="images/01-moving-stories/design-massing-diagrams.jpg" alt="Massing and programme diagrams">
+      <div class="cp-caption">
+        <div class="cl1">Liza Zaiceva — Moving Stories, Antwerp</div>
+        <div class="cl2">Massing Studies — Programme Distribution</div>
+        <div class="cl3">Urban Analysis · Antwerp, Belgium</div>
+      </div>
+    </div>
+
+    <div class="cp-img-block">
+      <img src="images/01-moving-stories/site-hoboken-mosque-and-street.jpg" alt="Site photographs Hoboken">
+      <div class="cp-caption">
+        <div class="cl1">Site Documentation — Logieweg, Hoboken</div>
+        <div class="cl2">Blikfabriek District — Site Context Photographs</div>
+        <div class="cl3">Antwerp, Belgium</div>
+      </div>
+    </div>
+
+    <div class="cp-img-block">
+      <img src="images/01-moving-stories/site-container-and-garden.jpg" alt="Site photographs container and garden">
+      <div class="cp-caption">
+        <div class="cl1">Site Documentation — Logieweg, Hoboken</div>
+        <div class="cl2">Existing Fabric — Temporary Structures and Outdoor Spaces</div>
+        <div class="cl3">Antwerp, Belgium</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── SOUTH CITY NAPLES — PROJECT 02 ── -->
+<div class="cargo-page-overlay" id="cargo-p1">
+  <div class="cargo-content">
+    <div class="cp-header">
+      <div class="cp-eyebrow">02 / 06 &nbsp;·&nbsp; Competition &nbsp;·&nbsp; International Workshop &nbsp;·&nbsp; 2024</div>
+      <div class="cp-title">South City Entrance<br>— Naples</div>
+      <div class="cp-divider"></div>
+      <div class="cp-desc">A visionary redesign for the southern entrance of Naples, created during an international week-long workshop in Dortmund. My personal role covered conceptualisation, sketching, and graphic production. The proposal introduces a multifaceted waterfront development: a residential complex, a lush green park, and the Marine Museum — designed as a landmark cultural hub and symbolic gateway for both tourists and residents. A residential tower frames the city's iconic views of Vesuvius.</div>
+    </div>
+    <div class="cp-img-block">
+      <img src="images/02-south-city-naples/graphic-elevation-tower-and-museum.jpg" alt="Graphic elevation tower and museum">
+      <div class="cp-caption">
+        <div class="cl1">Liza Zaiceva — South City Entrance, Naples</div>
+        <div class="cl2">Graphic Elevation — Marine Museum and Residential Tower</div>
+        <div class="cl3">Naples, Italy, 2024</div>
+      </div>
+    </div>
+    <div class="cp-img-block">
+      <img src="images/02-south-city-naples/aerial-collage-with-design-proposals.jpg" alt="Aerial collage Naples">
+      <div class="cp-caption">
+        <div class="cl1">Liza Zaiceva — South City Entrance, Naples</div>
+        <div class="cl2">Aerial Collage — Naples Waterfront with Design Proposals</div>
+        <div class="cl3">Naples, Italy, 2024</div>
+      </div>
+    </div>
+    <div class="cp-img-block">
+      <img src="images/02-south-city-naples/graphic-elevation-street-perspective.jpg" alt="Street perspective elevation">
+      <div class="cp-caption">
+        <div class="cl1">Liza Zaiceva — South City Entrance, Naples</div>
+        <div class="cl2">Street Perspective — Harbour Entrance Elevation</div>
+        <div class="cl3">Naples, Italy, 2024</div>
+      </div>
+    </div>
+    <div class="cp-img-block">
+      <img src="images/02-south-city-naples/site-plan-axonometric.jpg" alt="Site plan axonometric">
+      <div class="cp-caption">
+        <div class="cl1">Liza Zaiceva — South City Entrance, Naples</div>
+        <div class="cl2">Site Plan — Waterfront Masterplan Axonometric</div>
+        <div class="cl3">Naples, Italy, 2024</div>
+      </div>
+    </div>
+    <div class="cp-img-block">
+      <img src="images/02-south-city-naples/hand-sketches-perspectives.jpg" alt="Hand sketches">
+      <div class="cp-caption">
+        <div class="cl1">Liza Zaiceva — South City Entrance, Naples</div>
+        <div class="cl2">Conceptual Sketches — Design Process Perspectives</div>
+        <div class="cl3">Naples, Italy, 2024</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── MORAMANGA CHURCH — PROJECT 03 ── -->
+<div class="cargo-page-overlay" id="cargo-p2">
+  <div class="cargo-content">
+    <div class="cp-header">
+      <div class="cp-eyebrow">03 / 06 &nbsp;·&nbsp; Competition &nbsp;·&nbsp; Young Architects &nbsp;·&nbsp; 2024</div>
+      <div class="cp-title">Moramanga Church<br>— Madagascar</div>
+      <div class="cp-divider"></div>
+      <div class="cp-desc">A community church designed for a Young Architects Competition, created in collaboration with an international team. My personal contribution covered water-filtering system conceptualisation and render creation with post-production. The church is a place of gentle transitions — from quiet reflection to shared community ritual. Built with local participation: residents helped construct woven wall panels using traditional wattle weaving. Rammed earth walls, thatched roofs, and woven branches combine village textures with modern construction. Rainwater is collected dramatically from the roofs and filters through the church walls to provide drinking water for nearby villages.</div>
+    </div>
+    <div class="cp-img-block">
+      <img src="images/03-moramanga-church/photo-bell-tower.jpg" alt="Bell tower exterior photo">
+      <div class="cp-caption">
+        <div class="cl1">Liza Zaiceva — Moramanga Church, Madagascar</div>
+        <div class="cl2">Bell Tower — Site Photograph</div>
+        <div class="cl3">Moramanga, Madagascar, 2024</div>
+      </div>
+    </div>
+    <div class="cp-img-block">
+      <img src="images/03-moramanga-church/render-chapel-interior.jpg" alt="Chapel interior render">
+      <div class="cp-caption">
+        <div class="cl1">Liza Zaiceva — Moramanga Church, Madagascar</div>
+        <div class="cl2">Chapel Interior — Architectural Render</div>
+        <div class="cl3">Moramanga, Madagascar, 2024</div>
+      </div>
+    </div>
+    <div class="cp-img-block">
+      <img src="images/03-moramanga-church/render-rain-walkway.jpg" alt="Rain walkway render">
+      <div class="cp-caption">
+        <div class="cl1">Liza Zaiceva — Moramanga Church, Madagascar</div>
+        <div class="cl2">Rain Walkway — Covered Corridor with Water Curtain</div>
+        <div class="cl3">Moramanga, Madagascar, 2024</div>
+      </div>
+    </div>
+    <div class="cp-img-block">
+      <img src="images/03-moramanga-church/elevation-poster.jpg" alt="Church elevation poster">
+      <div class="cp-caption">
+        <div class="cl1">Liza Zaiceva — Moramanga Church, Madagascar</div>
+        <div class="cl2">Graphic Elevation — Church Complex</div>
+        <div class="cl3">Moramanga, Madagascar, 2024</div>
+      </div>
+    </div>
+    <div class="cp-img-block">
+      <img src="images/03-moramanga-church/section-longitudinal.jpg" alt="Longitudinal section">
+      <div class="cp-caption">
+        <div class="cl1">Liza Zaiceva — Moramanga Church, Madagascar</div>
+        <div class="cl2">Longitudinal Section — Full Length of Church</div>
+        <div class="cl3">Technical Drawing · 2024</div>
+      </div>
+    </div>
+    <div class="cp-img-block">
+      <img src="images/03-moramanga-church/floor-plan.jpg" alt="Floor plan">
+      <div class="cp-caption">
+        <div class="cl1">Liza Zaiceva — Moramanga Church, Madagascar</div>
+        <div class="cl2">Floor Plan — Scale 1:100</div>
+        <div class="cl3">Technical Drawing · 2024</div>
+      </div>
+    </div>
+    <div class="cp-img-block">
+      <img src="images/03-moramanga-church/site-plan.jpg" alt="Site plan">
+      <div class="cp-caption">
+        <div class="cl1">Liza Zaiceva — Moramanga Church, Madagascar</div>
+        <div class="cl2">Site Plan — Church in Malagasy Landscape</div>
+        <div class="cl3">Scale 1:40m · 2024</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── LEIDEN FOODLABS — PROJECT 04 ── -->
+<div class="cargo-page-overlay" id="cargo-p3">
+  <div class="cargo-content">
+    <div class="cp-header">
+      <div class="cp-eyebrow">04 / 06 &nbsp;·&nbsp; Academic Project &nbsp;·&nbsp; MSc 1 &nbsp;·&nbsp; 2024</div>
+      <div class="cp-title">Leiden<br>FOODLABS</div>
+      <div class="cp-divider"></div>
+      <div class="cp-desc">A multi-purpose public building designed around the principle of adaptability and design for disassembly. The building is fully demountable, with stackable floors made from Cross-Laminated Timber (CLT) that can be reconfigured as needs change. A semi-permanent core functions variably as a canteen or workshop space. The concept extends underground with an infrastructure designed to connect seamlessly with surrounding buildings through a plug-and-play system — allowing for straightforward future modifications and expansions.</div>
+    </div>
+    <div class="cp-img-block">
+      <img src="images/04-leiden-foodlabs/facade-panel-study.jpg" alt="Facade panel study">
+      <div class="cp-caption">
+        <div class="cl1">Liza Zaiceva — Leiden FOODLABS</div>
+        <div class="cl2">Facade Panel Study — Material and Section Composition</div>
+        <div class="cl3">Leiden, Netherlands, 2024</div>
+      </div>
+    </div>
+    <div class="cp-img-block">
+      <img src="images/04-leiden-foodlabs/axonometries-assembly-sequence.jpg" alt="Assembly sequence axonometries">
+      <div class="cp-caption">
+        <div class="cl1">Liza Zaiceva — Leiden FOODLABS</div>
+        <div class="cl2">Assembly Sequence — Three Axonometric Studies</div>
+        <div class="cl3">Leiden, Netherlands, 2024</div>
+      </div>
+    </div>
+    <div class="cp-img-block">
+      <img src="images/04-leiden-foodlabs/elevations-north-south.jpg" alt="North and south elevations">
+      <div class="cp-caption">
+        <div class="cl1">Liza Zaiceva — Leiden FOODLABS</div>
+        <div class="cl2">North and South Elevations — Building in Context</div>
+        <div class="cl3">Leiden, Netherlands, 2024</div>
+      </div>
+    </div>
+    <div class="cp-img-block">
+      <img src="images/04-leiden-foodlabs/construction-detail-axonometries.jpg" alt="Construction detail axonometries">
+      <div class="cp-caption">
+        <div class="cl1">Liza Zaiceva — Leiden FOODLABS</div>
+        <div class="cl2">Construction Detail — CLT Structure Axonometries</div>
+        <div class="cl3">Technical Drawing · Leiden, Netherlands, 2024</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── INTERNSHIP ELEPHANT STUDIO — PROJECT 05 ── -->
+<div class="cargo-page-overlay" id="cargo-p4">
+  <div class="cargo-content">
+    <div class="cp-header">
+      <div class="cp-eyebrow">05 / 06 &nbsp;·&nbsp; Professional &nbsp;·&nbsp; Internship &nbsp;·&nbsp; 2024–2025</div>
+      <div class="cp-title">Internship<br>— Elephant Studio</div>
+      <div class="cp-divider"></div>
+      <div class="cp-desc">During my internship at Elephant Studio, I contributed to multiple project phases. In the feasibility phase I explored massing scenarios and programme distribution through spatial and parametric analysis using Grasshopper. In the Final and Technical Design phases I worked on technical detailing of monolithic heavy balconies in textured concrete, produced 3D physical models, and created architectural renders for design communication. I also produced detailed 3D modelling and interior design renders for a high-rise residential project in Amsterdam.</div>
+    </div>
+    <div class="cp-img-block">
+      <img src="images/05-internship-elephant/render-living-room-kitchen.jpg" alt="Interior render living room kitchen">
+      <div class="cp-caption">
+        <div class="cl1">Liza Zaiceva — Elephant Studio, Amsterdam</div>
+        <div class="cl2">Interior Render — Living Room and Kitchen</div>
+        <div class="cl3">Amsterdam, Netherlands, 2024–2025</div>
+      </div>
+    </div>
+    <div class="cp-img-block">
+      <img src="images/05-internship-elephant/render-riverside-terrace.jpg" alt="Riverside terrace render">
+      <div class="cp-caption">
+        <div class="cl1">Liza Zaiceva — Elephant Studio, Amsterdam</div>
+        <div class="cl2">Architectural Render — Riverside Terrace and Corridor</div>
+        <div class="cl3">Amsterdam, Netherlands, 2024–2025</div>
+      </div>
+    </div>
+    <div class="cp-img-block">
+      <img src="images/05-internship-elephant/render-bedroom.jpg" alt="Bedroom interior render">
+      <div class="cp-caption">
+        <div class="cl1">Liza Zaiceva — Elephant Studio, Amsterdam</div>
+        <div class="cl2">Interior Render — Bedroom</div>
+        <div class="cl3">Amsterdam, Netherlands, 2024–2025</div>
+      </div>
+    </div>
+    <div class="cp-img-block">
+      <img src="images/05-internship-elephant/site-model-aerial-render.jpg" alt="Site model aerial render">
+      <div class="cp-caption">
+        <div class="cl1">Liza Zaiceva — Elephant Studio, Amsterdam</div>
+        <div class="cl2">Site Model — Aerial 3D Render in Urban Context</div>
+        <div class="cl3">Amsterdam, Netherlands, 2024–2025</div>
+      </div>
+    </div>
+    <div class="cp-img-block">
+      <img src="images/05-internship-elephant/program-distribution-diagram.jpg" alt="Programme distribution diagram">
+      <div class="cp-caption">
+        <div class="cl1">Liza Zaiceva — Elephant Studio, Amsterdam</div>
+        <div class="cl2">Programme Distribution — Feasibility Study Diagram</div>
+        <div class="cl3">Amsterdam, Netherlands, 2024–2025</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── MOOD FOR WOOD — PROJECT 06 ── -->
+<div class="cargo-page-overlay" id="cargo-p5">
+  <div class="cargo-content">
+    <div class="cp-header">
+      <div class="cp-eyebrow">06 / 06 &nbsp;·&nbsp; Workshop · Built &nbsp;·&nbsp; 2021</div>
+      <div class="cp-title">Mood for Wood<br>— Birdwatching Platform</div>
+      <div class="cp-divider"></div>
+      <div class="cp-desc">A birdwatching platform for ornithologists on Łęgi Dębińskie in Poznań — a built installation created during the MOOD FOR WOOD woodworking workshop. The circular timber platform sits directly on the riverbank, composed of natural stones, a simple bird-watching table, and handcrafted timber elements. Designed as a quiet gathering and observation space where visitors can connect with the natural landscape and wildlife. Tutors: jeju.studio, Iwo Borkowicz, Adam Siemiaszkiewicz. Photography: Dawid Majewski.</div>
+    </div>
+    <div class="cp-img-block">
+      <img src="images/06-birdwatching-spot/birds.jpg" alt="Built platform waterside">
+      <div class="cp-caption">
+        <div class="cl1">Liza Zaiceva — Mood for Wood, Poznań</div>
+        <div class="cl2">Built Platform — Waterside with Ducks</div>
+        <div class="cl3">Łęgi Dębińskie, Poznań, Poland, 2021</div>
+      </div>
+    </div>
+    <div class="cp-img-block">
+      <img src="images/06-birdwatching-spot/nest.jpg" alt="Platform in use">
+      <div class="cp-caption">
+        <div class="cl1">Liza Zaiceva — Mood for Wood, Poznań</div>
+        <div class="cl2">Platform in Use — Birdwatching Spot by the River</div>
+        <div class="cl3">Łęgi Dębińskie, Poznań, Poland, 2021</div>
+      </div>
+    </div>
+    <div class="cp-img-block">
+      <img src="images/06-birdwatching-spot/bird view.jpg" alt="Aerial site view">
+      <div class="cp-caption">
+        <div class="cl1">Site Documentation — Łęgi Dębińskie, Poznań</div>
+        <div class="cl2">Aerial View — River Corridor and Site Context</div>
+        <div class="cl3">Poznań, Poland, 2021</div>
+      </div>
+    </div>
+    <div class="cp-img-block">
+      <img src="images/06-birdwatching-spot/model 1.jpg" alt="Physical scale model">
+      <div class="cp-caption">
+        <div class="cl1">Liza Zaiceva — Mood for Wood, Poznań</div>
+        <div class="cl2">Physical Model — Reed Poles and Contour Base</div>
+        <div class="cl3">Workshop Model · 2021</div>
+      </div>
+    </div>
+    <div class="cp-img-block">
+      <img src="images/06-birdwatching-spot/floorplan_circle.jpg" alt="Floor plan circular platform">
+      <div class="cp-caption">
+        <div class="cl1">Liza Zaiceva — Mood for Wood, Poznań</div>
+        <div class="cl2">Floor Plan — Circular Timber Platform</div>
+        <div class="cl3">Technical Drawing · 2021</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cargo-page-overlay" id="cargo-p6">
+  <div class="cargo-content">
+    <div class="cp-header">
+      <div class="cp-eyebrow">07 / 07 &nbsp;·&nbsp; Exhibition Design &nbsp;·&nbsp; 2025</div>
+      <div class="cp-title">Luminary<br>— Fintech Exhibition</div>
+      <div class="cp-divider"></div>
+      <div class="cp-desc">Exhibition design for Luminary, a fintech company. The project creates an immersive brand experience for a financial technology event — combining spatial design, custom furniture, and lighting to guide visitors through the product offering and brand identity.</div>
+    </div>
+    <div class="cp-img-block">
+      <img src="images/07-luminary-fintech exhibition/photo_5823241665399951006_y.jpg" alt="Luminary exhibition space">
+      <div class="cp-caption">
+        <div class="cl1">Liza Zaiceva — Luminary Fintech Exhibition</div>
+        <div class="cl2">Exhibition Space</div>
+        <div class="cl3">Exhibition Design · 2025</div>
+      </div>
+    </div>
+    <div class="cp-img-block">
+      <img src="images/07-luminary-fintech exhibition/photo_5823241665399951005_y.jpg" alt="Luminary exhibition detail">
+      <div class="cp-caption">
+        <div class="cl1">Liza Zaiceva — Luminary Fintech Exhibition</div>
+        <div class="cl2">Exhibition Detail</div>
+        <div class="cl3">Exhibition Design · 2025</div>
+      </div>
+    </div>
+    <div class="cp-img-block">
+      <img src="images/07-luminary-fintech exhibition/2 trial.png" alt="Luminary trial render">
+      <div class="cp-caption">
+        <div class="cl1">Liza Zaiceva — Luminary Fintech Exhibition</div>
+        <div class="cl2">Trial Render</div>
+        <div class="cl3">Exhibition Design · 2025</div>
+      </div>
+    </div>
+    <div class="cp-img-block">
+      <img src="images/07-luminary-fintech exhibition/Luminary_top view.png" alt="Luminary top view plan">
+      <div class="cp-caption">
+        <div class="cl1">Liza Zaiceva — Luminary Fintech Exhibition</div>
+        <div class="cl2">Top View — Spatial Layout Plan</div>
+        <div class="cl3">Exhibition Design · 2025</div>
+      </div>
+    </div>
+    <div class="cp-img-block">
+      <img src="images/07-luminary-fintech exhibition/Image2.jpg" alt="Luminary exhibition view">
+      <div class="cp-caption">
+        <div class="cl1">Liza Zaiceva — Luminary Fintech Exhibition</div>
+        <div class="cl2">Interior Render — Exhibition Zones</div>
+        <div class="cl3">Exhibition Design · 2025</div>
+      </div>
+    </div>
+    <div class="cp-img-block">
+      <img src="images/07-luminary-fintech exhibition/game render dimensions.jpg" alt="Luminary render with dimensions">
+      <div class="cp-caption">
+        <div class="cl1">Liza Zaiceva — Luminary Fintech Exhibition</div>
+        <div class="cl2">Render with Dimensions — Technical Overview</div>
+        <div class="cl3">Exhibition Design · 2025</div>
+      </div>
+    </div>
+    <div class="cp-img-block">
+      <img src="images/07-luminary-fintech exhibition/photo_5823241665399951003_y.jpg" alt="Assembly drawing">
+      <div class="cp-caption">
+        <div class="cl1">Liza Zaiceva — Luminary Fintech Exhibition</div>
+        <div class="cl2">Assembly Drawing — Iluminary Structure</div>
+        <div class="cl3">Technical Drawing · 2025</div>
+      </div>
+    </div>
+    <div class="cp-img-block">
+      <img src="images/07-luminary-fintech exhibition/lada luminary-ii (1).jpg" alt="Furniture technical drawing">
+      <div class="cp-caption">
+        <div class="cl1">Liza Zaiceva — Luminary Fintech Exhibition</div>
+        <div class="cl2">Cabinet Technical Drawing — Front, Side & Isometric</div>
+        <div class="cl3">Technical Drawing · 2025</div>
+      </div>
+    </div>
+    <div class="cp-img-block">
+      <img src="images/07-luminary-fintech exhibition/Luminary Table Draft (2).jpg" alt="Luminary table draft">
+      <div class="cp-caption">
+        <div class="cl1">Liza Zaiceva — Luminary Fintech Exhibition</div>
+        <div class="cl2">Table Draft — Custom Furniture Design</div>
+        <div class="cl3">Exhibition Design · 2025</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============ TRANSLATIONS ============ */
+const i18n = {
+  en: {
+    "nav.home":"Home","nav.projects":"Projects","nav.about":"About","nav.contact":"Contact",
+    "hero.tag":"Architectural Visualisation & Design — Netherlands",
+    "hero.desc":"Freelance architectural designer based in Utrecht, Netherlands. Creating compelling architectural visuals, competition entries, spatial designs, exhibition design, stage design, and interior design — working with architects, developers, and private clients worldwide.",
+    "hero.cta":"View all projects →",
+    "projects.label":"Selected work","projects.label2":"All work","projects.title":"PROJECTS","projects.view":"View project →","projects.back":"← Back to projects",
+    "p0.cat":"Graduation Project","p0.name":"Moving Stories — Antwerp",
+    "p1.cat":"Competition","p1.name":"South City Entrance — Naples",
+    "p2.cat":"Competition","p2.name":"Moramanga Church — Madagascar",
+    "p3.cat":"Academic Project","p3.name":"Leiden FOODLABS",
+    "p4.cat":"Professional","p4.name":"Internship — Elephant Studio",
+    "p5.cat":"Workshop · Built","p5.name":"Mood for Wood — Birdwatching Platform",
+    "p6.cat":"Exhibition Design","p6.name":"Luminary — Fintech Exhibition",
+    "about.label":"About me","about.title":"Vision & Approach",
+    "about.p1":"I am an architectural designer specialising in visualisation, competition support, and spatial design. My work connects creative ambition with technical precision — whether developing a competition entry or designing an interior from scratch.",
+    "about.p2":"Clients range from architectural offices seeking visualisation support to private individuals looking for an interior or spatial design. I work across the full design process, from initial concept to final deliverables.",
+    "about.p3":"Based in Utrecht, Netherlands. Available for projects locally and internationally.",
+    "about.stat1":"Years experience","about.stat2":"Countries","about.stat3":"Based in Utrecht",
+    "services.label":"What I offer","services.title":"SERVICES",
+    "s1.name":"Architectural Visualisation","s1.desc":"3D renders, walkthroughs, competition boards, and presentation visuals tailored to the design intent.",
+    "s2.name":"Competition Entries","s2.desc":"Full support for architecture competitions: concept development, design narrative, drawings, and submission boards.",
+    "s3.name":"Interior Design","s3.desc":"Space planning, material and finish selection, furniture layout, and interior fit-out from concept to specification.",
+    "s4.name":"Spatial Design","s4.desc":"Concept-driven spatial solutions for residential, commercial, and public contexts at all scales.",
+    "s5.name":"Technical Drawings","s5.desc":"Floor plans, sections, elevations, and construction details for design development and permit packages.",
+    "s6.name":"BIM & 3D Modelling","s6.desc":"Revit and ArchiCAD models for design development, coordination, and documentation workflows.",
+    "contact.label":"Get in touch","contact.title":"Let's Work Together",
+    "contact.intro":"Have a project in mind? I'd love to hear about it. Fill in the form or reach out directly — I typically respond within one working day.",
+    "contact.email":"Email","contact.phone":"Phone","contact.location":"Location",
+    "contact.formtitle":"Send a Message",
+    "form.name":"Name","form.nameph":"Your name","form.email":"Email","form.service":"Project type",
+    "form.serviceopt":"Select a service","form.opt1":"Architectural visualisation","form.opt2":"Competition entry",
+    "form.opt3":"Interior design","form.opt4":"Spatial design","form.opt5":"Technical drawings",
+    "form.opt6":"BIM / 3D modelling","form.opt7":"Other",
+    "form.budget":"Budget range","form.budgetopt":"Select budget",
+    "form.message":"Message","form.messageph":"Tell me about your project — type, scope, timeline...","form.submit":"Send message →",
+    "placeholder.heroimg":"Featured project — replace with your image",
+    "placeholder.img":"Replace with project image","placeholder.portrait":"Your portrait — replace with your photo","placeholder.photo":"Your photo — replace",
+    "meta.location":"Location","meta.year":"Year","meta.area":"Area","meta.status":"Status","meta.completed":"Completed",
+    "brand.name":"LIZA ZAICEVA","brand.hero":"LIZA ZAICEVA"
+  },
+  nl: {
+    "nav.home":"Home","nav.projects":"Projecten","nav.about":"Over mij","nav.contact":"Contact",
+    "hero.tag":"Architectuurvisualisatie & Ontwerp — Nederland",
+    "hero.desc":"Freelance architectuurontwerper gevestigd in Utrecht, Nederland. Overtuigende architectuurvisualisaties, competitie-inzendingen, ruimtelijk ontwerp, tentoonstellingsontwerp, podiumontwerp en interieurontwerp — werkzaam voor architecten, ontwikkelaars en particuliere opdrachtgevers wereldwijd.",
+    "hero.cta":"Alle projecten bekijken →",
+    "projects.label":"Geselecteerd werk","projects.label2":"Alle projecten","projects.title":"PROJECTEN","projects.view":"Project bekijken →","projects.back":"← Terug naar projecten",
+    "p0.cat":"Afstudeerproject","p0.name":"Moving Stories — Antwerpen",
+    "p1.cat":"Competitie","p1.name":"Stadsrand Napels",
+    "p2.cat":"Competitie","p2.name":"Kerk Moramanga — Madagascar",
+    "p3.cat":"Academisch","p3.name":"Leiden FOODLABS",
+    "p4.cat":"Professioneel","p4.name":"Stage — Elephant Studio",
+    "p5.cat":"Workshop · Gebouwd","p5.name":"Mood for Wood — Vogelkijkplatform",
+    "p6.cat":"Tentoonstellingsontwerp","p6.name":"Luminary — Fintech Tentoonstelling",
+    "about.label":"Over mij","about.title":"Visie & Aanpak",
+    "about.p1":"Ik ben een architectuurontwerper gespecialiseerd in visualisatie, competitie-ondersteuning en ruimtelijk ontwerp. Mijn werk verbindt creatieve ambitie met technische precisie — van competitie-inzending tot interieurontwerp.",
+    "about.p2":"Mijn opdrachtgevers variëren van architectenbureaus die visualisatieondersteuning zoeken tot particulieren met een interieur- of ruimtelijk ontwerpvraag. Ik werk door het hele ontwerpproces, van eerste concept tot eindoplevering.",
+    "about.p3":"Gevestigd in Utrecht, Nederland. Beschikbaar voor projecten nationaal en internationaal.",
+    "about.stat1":"Jaar ervaring","about.stat2":"Landen","about.stat3":"Gevestigd in Utrecht",
+    "services.label":"Wat ik aanbied","services.title":"DIENSTEN",
+    "s1.name":"Architectuurvisualisatie","s1.desc":"3D-renders, walkthroughs, competitieboards en presentatiebeelden afgestemd op het ontwerpintent.",
+    "s2.name":"Competitie-inzendingen","s2.desc":"Volledige ondersteuning voor architectuurcompetities: conceptontwikkeling, ontwerpteksten, tekeningen en inzendingsboards.",
+    "s3.name":"Interieurontwerp","s3.desc":"Ruimteplanning, materiaal- en afwerkingskeuze, meubelindeling en interieurinrichting van concept tot specificatie.",
+    "s4.name":"Ruimtelijk Ontwerp","s4.desc":"Conceptgedreven ruimtelijke oplossingen voor woon-, commerciële en openbare contexten op alle schalen.",
+    "s5.name":"Technische Tekeningen","s5.desc":"Plattegronden, doorsneden, gevels en constructiedetails voor ontwerpuitwerking en vergunningspakketten.",
+    "s6.name":"BIM & 3D-modellering","s6.desc":"Revit- en ArchiCAD-modellen voor ontwerpuitwerking, coördinatie en documentatieworkflows.",
+    "contact.label":"Neem contact op","contact.title":"Laten we Samenwerken",
+    "contact.intro":"Heeft u een project in gedachten? Ik hoor het graag. Vul het formulier in of neem direct contact op — ik reageer doorgaans binnen één werkdag.",
+    "contact.email":"E-mail","contact.phone":"Telefoon","contact.location":"Locatie",
+    "contact.formtitle":"Stuur een Bericht",
+    "form.name":"Naam","form.nameph":"Uw naam","form.email":"E-mail","form.service":"Projecttype",
+    "form.serviceopt":"Selecteer een dienst","form.opt1":"Architectuurvisualisatie","form.opt2":"Competitie-inzending",
+    "form.opt3":"Interieurontwerp","form.opt4":"Ruimtelijk ontwerp","form.opt5":"Technische tekeningen",
+    "form.opt6":"BIM / 3D-modellering","form.opt7":"Anders",
+    "form.budget":"Budgetindicatie","form.budgetopt":"Selecteer budget",
+    "form.message":"Bericht","form.messageph":"Vertel me over uw project — type, omvang, planning...","form.submit":"Bericht versturen →",
+    "placeholder.heroimg":"Uitgelicht project — vervang door uw afbeelding",
+    "placeholder.img":"Vervang door projectafbeelding","placeholder.portrait":"Uw portret — vervang door uw foto","placeholder.photo":"Uw foto — vervangen",
+    "meta.location":"Locatie","meta.year":"Jaar","meta.area":"Oppervlak","meta.status":"Status","meta.completed":"Opgeleverd",
+    "brand.name":"LIZA ZAICEVA","brand.hero":"LIZA ZAICEVA"
+  },
+  ru: {
+    "nav.home":"Главная","nav.projects":"Проекты","nav.about":"Обо мне","nav.contact":"Контакт",
+    "hero.tag":"Архитектурная Визуализация & Дизайн — Нидерланды",
+    "hero.desc":"Фриланс-архитектурный дизайнер, базируюсь в Утрехте, Нидерланды. Создаю архитектурные визуализации, конкурсные проекты, пространственный дизайн, выставочный дизайн, сценографию и дизайн интерьера — работаю с архитекторами, застройщиками и частными заказчиками по всему миру.",
+    "hero.cta":"Все проекты →",
+    "projects.label":"Избранные работы","projects.label2":"Все проекты","projects.title":"ПРОЕКТЫ","projects.view":"Открыть проект →","projects.back":"← Назад к проектам",
+    "p0.cat":"Дипломный проект","p0.name":"Moving Stories — Антверпен",
+    "p1.cat":"Конкурс","p1.name":"Южный въезд в Неаполь",
+    "p2.cat":"Конкурс","p2.name":"Церковь Морамангa — Мадагаскар",
+    "p3.cat":"Учебный проект","p3.name":"Leiden FOODLABS",
+    "p4.cat":"Профессиональный","p4.name":"Стажировка — Elephant Studio",
+    "p5.cat":"Воркшоп · Реализовано","p5.name":"Mood for Wood — Площадка для наблюдения",
+    "p6.cat":"Выставочный дизайн","p6.name":"Luminary — Финтех-выставка",
+    "about.label":"Обо мне","about.title":"Видение & Подход",
+    "about.p1":"Я архитектурный дизайнер, специализирующийся на визуализации, конкурсной поддержке и пространственном проектировании. В моей работе творческие амбиции сочетаются с технической точностью — будь то конкурсный проект или интерьерный дизайн.",
+    "about.p2":"Среди моих клиентов — архитектурные бюро, которым нужна визуализационная поддержка, и частные заказчики с запросом на интерьерный или пространственный дизайн. Я работаю на всех этапах: от первой концепции до финальной документации.",
+    "about.p3":"Базируюсь в Утрехте, Нидерланды. Принимаю проекты в стране и за рубежом.",
+    "about.stat1":"Лет опыта","about.stat2":"Стран","about.stat3":"Утрехт, Нидерланды",
+    "services.label":"Что я предлагаю","services.title":"УСЛУГИ",
+    "s1.name":"Архитектурная визуализация","s1.desc":"3D-рендеры, облёты, конкурсные планшеты и презентационные визуалы в соответствии с концепцией проекта.",
+    "s2.name":"Конкурсные проекты","s2.desc":"Полная поддержка архитектурных конкурсов: концепция, проектный нарратив, чертежи и планшеты для подачи.",
+    "s3.name":"Интерьерный дизайн","s3.desc":"Планирование пространства, подбор материалов и отделки, расстановка мебели, интерьерное проектирование от концепции до спецификации.",
+    "s4.name":"Пространственный дизайн","s4.desc":"Концептуальные пространственные решения для жилых, коммерческих и общественных объектов любого масштаба.",
+    "s5.name":"Рабочая документация","s5.desc":"Планы, разрезы, фасады и конструктивные узлы для разработки проекта и разрешительной документации.",
+    "s6.name":"BIM и 3D-моделирование","s6.desc":"Модели в Revit и ArchiCAD для разработки проекта, координации и создания документации.",
+    "contact.label":"Связаться со мной","contact.title":"Давайте Работать Вместе",
+    "contact.intro":"Есть проект? Я буду рада узнать о нём. Заполните форму или свяжитесь напрямую — как правило, отвечаю в течение одного рабочего дня.",
+    "contact.email":"E-mail","contact.phone":"Телефон","contact.location":"Местоположение",
+    "contact.formtitle":"Отправить Сообщение",
+    "form.name":"Имя","form.nameph":"Ваше имя","form.email":"E-mail","form.service":"Тип проекта",
+    "form.serviceopt":"Выберите услугу","form.opt1":"Архитектурная визуализация","form.opt2":"Конкурсный проект",
+    "form.opt3":"Интерьерный дизайн","form.opt4":"Пространственный дизайн","form.opt5":"Рабочая документация",
+    "form.opt6":"BIM / 3D-моделирование","form.opt7":"Другое",
+    "form.budget":"Бюджет","form.budgetopt":"Выберите бюджет",
+    "form.message":"Сообщение","form.messageph":"Расскажите о проекте — тип, масштаб, сроки...","form.submit":"Отправить сообщение →",
+    "placeholder.heroimg":"Избранный проект — замените своим изображением",
+    "placeholder.img":"Замените изображением проекта","placeholder.portrait":"Ваш портрет — замените своей фотографией","placeholder.photo":"Ваше фото — заменить",
+    "meta.location":"Местоположение","meta.year":"Год","meta.area":"Площадь","meta.status":"Статус","meta.completed":"Завершён",
+    "brand.name":"ЛИЗА ЗАЙЦЕВА","brand.hero":"ЛИЗА ЗАЙЦЕВА"
+  }
+};
+
+/* ============ PROJECT DATA ============ */
+const projectData = {
+  en:[
+    {cat:"Graduation Project",title:"Moving Stories — Antwerp",img:"images/00-head-images/01-moving-stories-head.jpg",loc:"Antwerp, Belgium",year:"2025",area:"—",status:"Academic",desc:"A graduation project exploring how architecture can give spatial form to the personal memories of migrant communities in Antwerp. Set in Logieweg – Blikfabriek, a post-industrial district in the south of Antwerp, the project engages with histories of migration and underrepresentation. At its core is the ambition to create spaces that reflect the stories of often-unheard migrant residents — translating memory, ritual, and shared experience into architecture. The co-housing scheme organises units into clusters around generous shared courtyards, with collective kitchens, coworking areas, and flexible community spaces that foster everyday interaction and a sense of belonging."},
+    {cat:"Competition",title:"South City Entrance — Naples",img:"images/00-head-images/02-south-city-naples-head.jpg",loc:"Naples, Italy",year:"2024",area:"—",status:"International Workshop",desc:"A visionary redesign for the southern entrance of Naples, created during an international week-long workshop in Dortmund. My personal role covered conceptualisation, sketching, and graphic production. The proposal responds to the city's initiative to reimagine its harbour area, introducing a multifaceted waterfront development: a residential complex, a lush green park, and the Marine Museum — designed as a landmark cultural hub and symbolic gateway for both tourists and residents. The museum's architectural expression reflects the vibrant, dynamic spirit of Naples, while a residential tower frames the city's iconic views of Vesuvius."},
+    {cat:"Competition",title:"Moramanga Church — Madagascar",img:"images/00-head-images/03-moramanga-church-head.jpg",loc:"Moramanga, Madagascar",year:"2024",area:"—",status:"Competition Entry",desc:"A community church designed for a Young Architects Competition, created in collaboration with an international team. My personal contribution covered water-filtering system conceptualisation and render creation with post-production. The church is designed as a place of gentle transitions — from quiet reflection to shared community ritual. Built with local participation, residents helped construct woven wall panels using traditional wattle weaving techniques. Rammed earth walls, thatched roofs, and woven branches combine village textures with modern construction. Rainwater is collected dramatically from the roofs, filtering through the church walls to provide drinking water for nearby villages."},
+    {cat:"Academic Project",title:"Leiden FOODLABS",img:"images/00-head-images/04-leiden-foodlabs-head.jpg",loc:"Leiden, Netherlands",year:"2024",area:"—",status:"MSc 1 Project",desc:"A multi-purpose public building designed around the principle of adaptability and design for disassembly. The building is fully demountable, with stackable floors made from Cross-Laminated Timber (CLT) that can be reconfigured as needs change. A semi-permanent core functions variably as a canteen or workshop space. The concept extends underground with an infrastructure designed to connect seamlessly with surrounding buildings through a plug-and-play system — allowing for straightforward future modifications and expansions reflecting the dynamic nature of urban environments."},
+    {cat:"Professional",title:"Internship — Elephant Studio",img:"images/00-head-images/05-internship-elephant-head.jpg",loc:"Amsterdam, Netherlands",year:"2024–2025",area:"—",status:"Professional",desc:"During my internship at Elephant Studio, I contributed to multiple project phases. In the feasibility and initiative phase I explored massing scenarios, programme distribution, and optimisation through spatial and parametric analysis using Grasshopper. In the Final and Technical Design phases I worked closely with the lead architect on technical detailing of monolithic heavy balconies in textured concrete, produced 3D physical models, and created architectural renders and graphic post-production for design communication. For a high-rise residential project I also produced detailed 3D modelling and interior design renders."},
+    {cat:"Workshop · Built",title:"Mood for Wood — Birdwatching Platform",img:"images/00-head-images/06-birdwatching-spot-head.jpg",loc:"Poznań, Poland",year:"2021",area:"—",status:"Built",desc:"A birdwatching platform for ornithologists on Łęgi Dębińskie in Poznań — a built installation created during the MOOD FOR WOOD woodworking workshop. The circular timber platform sits directly on the riverbank, composed of natural stones, a simple bird-watching table, and handcrafted timber elements. Designed as a quiet gathering and observation space where visitors can connect with the natural landscape and wildlife. Tutors: jeju.studio, Iwo Borkowicz, Adam Siemiaszkiewicz. Photography: Dawid Majewski."}
+  ],
+  nl:[
+    {cat:"Afstudeerproject",title:"Moving Stories — Antwerpen",img:"images/00-head-images/01-moving-stories-head.jpg",loc:"Antwerpen, België",year:"2025",area:"—",status:"Academisch",desc:"Een afstudeerproject dat onderzoekt hoe architectuur ruimtelijke vorm kan geven aan de persoonlijke herinneringen van migrantengemeenschappen in Antwerpen. Het project speelt zich af in Logieweg – Blikfabriek, een post-industrieel stadsdeel in het zuiden van Antwerpen. De kern is de ambitie om ruimtes te creëren die de verhalen weerspiegelen van migranten, arbeidersklasse-families en transitgemeenschappen. Het co-housingschema organiseert wooneenheden in clusters rond gemeenschappelijke binnenplaatsen, met gedeelde keukens, coworkingruimtes en flexibele gemeenschapsruimtes."},
+    {cat:"Competitie",title:"Stadsrand Napels",img:"images/00-head-images/02-south-city-naples-head.jpg",loc:"Napels, Italië",year:"2024",area:"—",status:"Internationale Workshop",desc:"Een visionair herontwerp voor de zuidelijke entree van Napels, gemaakt tijdens een internationale weekworkshop in Dortmund. Mijn persoonlijke rol omvatte de conceptualisering, het schetsen en de grafische productie. Het voorstel introduceert een multifunctionele waterfrontontwikkeling: een wooncomplex, een groen park en het Maritiem Museum — ontworpen als cultureel knooppunt en symbolische poort voor bezoekers en bewoners."},
+    {cat:"Competitie",title:"Kerk Moramanga — Madagascar",img:"images/00-head-images/03-moramanga-church-head.jpg",loc:"Moramanga, Madagascar",year:"2024",area:"—",status:"Competitie-inzending",desc:"Een gemeenschapskerk ontworpen voor een Young Architects Competition, in samenwerking met een internationaal team. Mijn bijdrage omvatte de conceptualisering van het waterfiltersysteem en de renderproductie. De kerk is ontworpen als een plek van zachte overgangen — van stille bezinning naar gemeenschappelijk ritueel. Bewoners hielpen mee bij de bouw en maakten gevlochten wandpanelen. Regenwater wordt verzameld via de daken en gefilterd voor gebruik als drinkwater."},
+    {cat:"Academisch",title:"Leiden FOODLABS",img:"images/00-head-images/04-leiden-foodlabs-head.jpg",loc:"Leiden, Nederland",year:"2024",area:"—",status:"MSc 1 Project",desc:"Een multifunctioneel openbaar gebouw ontworpen rond het principe van adaptiviteit en design voor demontage. Het gebouw is volledig demonteerbaar, met stapelbare CLT-vloeren die herindeling mogelijk maken. Een semi-permanente kern fungeert variabel als kantine of werkplaats. Het concept strekt zich ondergronds uit met een infrastructuur die naadloos verbinding maakt met omringende gebouwen via een plug-and-play systeem."},
+    {cat:"Professioneel",title:"Stage — Elephant Studio",img:"images/00-head-images/05-internship-elephant-head.jpg",loc:"Amsterdam, Nederland",year:"2024–2025",area:"—",status:"Professioneel",desc:"Tijdens mijn stage bij Elephant Studio droeg ik bij aan meerdere projectfasen. In de haalbaarheidsfase onderzocht ik masseringscenario's en programmadistributie via parametrische analyse in Grasshopper. In de DO- en TO-fase werkte ik mee aan de technische detaillering van monolithische balkons in getextureerd beton, maakte 3D-maquettes en produceerde renders en grafische post-productie voor ontwerpcommunicatie."},
+    {cat:"Workshop · Gebouwd",title:"Mood for Wood — Vogelkijkplatform",img:"images/00-head-images/06-birdwatching-spot-head.jpg",loc:"Poznań, Polen",year:"2021",area:"—",status:"Gerealiseerd",desc:"Een vogelkijkplatform voor ornithologen op Łęgi Dębińskie in Poznań — een gerealiseerde installatie gemaakt tijdens de MOOD FOR WOOD houtbewerkingsworkshop. Het ronde houten platform staat direct aan de oever, samengesteld uit natuurstenen, een eenvoudige kijktafel en handgemaakte houten elementen. Ontworpen als een rustige ontmoetings- en observatieruimte. Tutors: jeju.studio, Iwo Borkowicz, Adam Siemiaszkiewicz. Fotografie: Dawid Majewski."}
+  ],
+  ru:[
+    {cat:"Дипломный проект",title:"Moving Stories — Антверпен",img:"images/00-head-images/01-moving-stories-head.jpg",loc:"Антверпен, Бельгия",year:"2025",area:"—",status:"Учебный",desc:"Дипломный проект, исследующий, как архитектура может воплощать личные воспоминания мигрантских сообществ Антверпена. Действие разворачивается в Logieweg – Blikfabriek — постиндустриальном районе на юге города. В основе проекта — стремление создать пространства, отражающие истории часто невидимых мигрантов, рабочих семей и транзитных сообществ. Схема со-хаусинга организует жилые единицы в кластеры вокруг общих дворов с коллективными кухнями, рабочими пространствами и гибкими зонами."},
+    {cat:"Конкурс",title:"Южный въезд в Неаполь",img:"images/00-head-images/02-south-city-naples-head.jpg",loc:"Неаполь, Италия",year:"2024",area:"—",status:"Международный воркшоп",desc:"Концепция переосмысления южного въезда в Неаполь, созданная в ходе международного недельного воркшопа в Дортмунде. Мой вклад включал концептуализацию, создание эскизов и графическое оформление. Проект предлагает многофункциональное развитие набережной: жилой комплекс, парк и Морской музей — как культурный центр и символические ворота города."},
+    {cat:"Конкурс",title:"Церковь Морамангa — Мадагаскар",img:"images/00-head-images/03-moramanga-church-head.jpg",loc:"Морамангa, Мадагаскар",year:"2024",area:"—",status:"Конкурсная работа",desc:"Общественная церковь для конкурса Young Architects Competition, созданная в международной команде. Мой вклад включал концепцию системы водофильтрации и создание рендеров. Церковь спроектирована как место мягких переходов — от тихого созерцания к общинному ритуалу. Жители помогали строить: создавали плетёные панели по традиционным техникам. Дождевая вода собирается с крыш и фильтруется через стены — обеспечивая питьевой водой соседние деревни."},
+    {cat:"Учебный проект",title:"Leiden FOODLABS",img:"images/00-head-images/04-leiden-foodlabs-head.jpg",loc:"Лейден, Нидерланды",year:"2024",area:"—",status:"MSc 1 Проект",desc:"Многофункциональное общественное здание на основе принципа адаптивности и проектирования для разборки. Здание полностью демонтируемо: штабелируемые перекрытия из CLT допускают переконфигурацию по мере изменения потребностей. Полупостоянное ядро может служить столовой или мастерской. Подземная инфраструктура соединяет здание с соседними постройками через систему plug-and-play."},
+    {cat:"Профессиональный",title:"Стажировка — Elephant Studio",img:"images/00-head-images/05-internship-elephant-head.jpg",loc:"Амстердам, Нидерланды",year:"2024–2025",area:"—",status:"Профессиональный",desc:"В ходе стажировки в Elephant Studio я участвовала в нескольких фазах проектов. На этапе технико-экономического обоснования исследовала сценарии формообразования и распределения программы с помощью параметрического анализа в Grasshopper. В фазе рабочего и технического проектирования помогала с детализацией монолитных балконов из фактурного бетона, создавала 3D-макеты и рендеры для презентации проекта. Также выполняла 3D-моделирование и рендеры интерьеров для жилого высотного здания."},
+    {cat:"Воркшоп · Реализовано",title:"Mood for Wood — Площадка для наблюдения",img:"images/00-head-images/06-birdwatching-spot-head.jpg",loc:"Познань, Польша",year:"2021",area:"—",status:"Реализовано",desc:"Площадка для наблюдения за птицами на Łęgi Dębińskie в Познани — реализованная инсталляция, созданная в рамках воркшопа по деревообработке MOOD FOR WOOD. Круглая деревянная платформа стоит прямо на берегу реки. Она составлена из природных камней, простого столика для наблюдения и элементов ручной работы. Спроектирована как тихое место встречи с природой. Тьюторы: jeju.studio, Иво Борковиц, Адам Семяшкевич. Фотография: Давид Маевский."}
+  ]
+};
+
+/* ============ STATE ============ */
+let currentLang = 'en';
+
+/* ============ LANGUAGE FUNCTION ============ */
+function setLang(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang === 'ru' ? 'ru' : lang === 'nl' ? 'nl' : 'en';
+
+  const t = i18n[lang];
+
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key] !== undefined) el.innerHTML = t[key];
+  });
+
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    const key = el.getAttribute('data-i18n-ph');
+    if (t[key] !== undefined) el.placeholder = t[key];
+  });
+
+  updateCargoPageLanguage(lang);
+
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.textContent === lang.toUpperCase());
+  });
+
+  updateMarquee(lang);
+}
+
+function updateMarquee(lang) {
+  const tracks = {
+    en: "Visualisation·Competition·Interior Design·Spatial Design·3D Renders·BIM·Architecture·Concept Design",
+    nl: "Visualisatie·Competitie·Interieurontwerp·Ruimtelijk Ontwerp·3D Renders·BIM·Architectuur·Conceptontwerp",
+    ru: "Визуализация·Конкурс·Интерьерный дизайн·Пространственный дизайн·3D Рендеры·BIM·Архитектура·Концепт"
+  };
+  const items = tracks[lang].split('·');
+  const doubled = [...items, ...items];
+  document.getElementById('marquee-track').innerHTML = doubled.map(
+    (w,i) => `<span>${w}</span><span class="ac">·</span>`
+  ).join('');
+}
+
+/* ============ PAGE & PROJECT NAVIGATION ============ */
+function showPage(id) {
+  document.querySelectorAll('.cargo-page-overlay').forEach(p => p.classList.remove('active'));
+  document.getElementById('cargo-nav-frame').classList.remove('active');
+  document.querySelectorAll('.page').forEach(p => {
+    p.classList.remove('active');
+    p.style.display = '';
+  });
+  const page = document.getElementById(id);
+  page.classList.add('active');
+  page.style.display = '';
+  const nav = document.getElementById('main-nav');
+  if (id === 'p1') {
+    nav.style.position = 'fixed';
+    nav.style.top = '0';
+    nav.style.zIndex = '600';
+  } else {
+    nav.style.position = 'relative';
+    nav.style.top = 'auto';
+    nav.style.zIndex = 'auto';
+  }
+  document.querySelectorAll('.nav-links a[data-page]').forEach(a => {
+    a.classList.toggle('active', a.getAttribute('data-page') === id);
+  });
+  if (id === 'p2') {
+    document.getElementById('proj-list-view').style.display = 'block';
+    document.getElementById('proj-detail-view').classList.remove('open');
+  }
+  window.scrollTo(0, 0);
+  document.getElementById('nav-links').classList.remove('open');
+}
+
+function openProject(i) {
+  const p = projectData[currentLang][i];
+  const t = i18n[currentLang];
+  const heroImg = document.querySelector('.pd-hero-img');
+  heroImg.innerHTML = p.img ? `<img src="${p.img}" alt="${p.title}" style="width:100%;height:100%;object-fit:cover;display:block;">` : '';
+  document.getElementById('pd-cat').textContent = p.cat;
+  document.getElementById('pd-title').textContent = p.title;
+  document.getElementById('pd-meta').innerHTML =
+    `<div><div class="pd-meta-lbl">${t['meta.location']}</div><div class="pd-meta-val">${p.loc}</div></div>`+
+    `<div><div class="pd-meta-lbl">${t['meta.year']}</div><div class="pd-meta-val">${p.year}</div></div>`+
+    `<div><div class="pd-meta-lbl">${t['meta.area']}</div><div class="pd-meta-val">${p.area}</div></div>`+
+    `<div><div class="pd-meta-lbl">${t['meta.status']}</div><div class="pd-meta-val">${p.status}</div></div>`;
+  document.getElementById('pd-desc').textContent = p.desc;
+  document.getElementById('pd-back').innerHTML = t['projects.back'];
+  showPage('p2');
+  document.getElementById('proj-list-view').style.display = 'none';
+  document.getElementById('proj-detail-view').classList.add('open');
+  window.scrollTo(0, 0);
+}
+
+function closeProject() {
+  document.getElementById('proj-list-view').style.display = 'block';
+  document.getElementById('proj-detail-view').classList.remove('open');
+  window.scrollTo(0, 0);
+}
+
+function toggleMenu() {
+  document.getElementById('nav-links').classList.toggle('open');
+}
+
+/* Hide mobile lang switcher on desktop */
+function handleResize() {
+  const isMobile = window.innerWidth <= 900;
+  document.getElementById('lang-switch-mobile').style.display = isMobile ? 'flex' : 'none';
+}
+window.addEventListener('resize', handleResize);
+handleResize();
+
+showPage('p1');
+setLang('en');
+
+/* ── CARGO PROJECT DATA ── */
+const cargoData = {
+  en: [
+    {title:'Moving Stories<br>— Antwerp', desc:'A graduation project exploring how architecture can give spatial form to the personal memories of migrant communities. Set in Logieweg – Blikfabriek, a post-industrial district in the south of Antwerp. Co-housing clusters around shared courtyards — translating memory, ritual, and community into built space.'},
+    {title:'South City Entrance<br>— Naples', desc:'An international week workshop competition exploring the urban gateway to Naples. The design proposes a mixed-use public space that celebrates the arrival experience, integrating cultural programming, green infrastructure, and dynamic public gathering spaces for the diverse communities of the city.'},
+    {title:'Moramanga Church<br>— Madagascar', desc:'Young architects competition entry for a new church in Moramanga, Madagascar. The design draws inspiration from local vernacular architecture and community gathering traditions, creating a spiritual and social hub that serves the rapidly growing urban area while respecting cultural identity and local building practices.'},
+    {title:'Leiden FOODLABS', desc:'MSc project focused on design for disassembly and circular economy principles. FOODLABS is a modular system for urban food production combining vertical farming, community kitchens, and educational spaces. The design prioritizes material reuse, easy maintenance, and eventual deconstruction with minimal waste.'},
+    {title:'Internship<br>— Elephant Studio', desc:'Feasibility studies and interior design renders for various residential and commercial projects. Work included spatial planning, material specification, 3D visualization, and design presentations for clients and stakeholders, demonstrating the full scope of professional design practice.'},
+    {title:'Mood for Wood<br>— Birdwatching Platform', desc:'A built architectural installation along the Warta River in Poznań, Poland. The project creates a public gathering space for birdwatching and nature observation using locally sourced timber. The circular platform design facilitates wildlife viewing while minimizing environmental impact and creating a memorable experience in nature.'},
+    {title:'Luminary<br>— Fintech Exhibition', desc:'Exhibition design for Luminary, a fintech company. The project creates an immersive brand experience for a financial technology event — combining spatial design, custom furniture, and lighting to guide visitors through the product offering and brand identity.'}
+  ],
+  nl: [
+    {title:'Moving Stories<br>— Antwerpen', desc:'Een afstudeerproject dat onderzoekt hoe architectuur ruimtelijke vorm kan geven aan persoonlijke herinneringen van migrantengemeenschappen. Gelegen in Logieweg – Blikfabriek, een post-industrieel district in zuid-Antwerpen. Co-housing clusters rond gedeelde tuinen — het vertalen van geheugen, ritueel en gemeenschap in bebouwde ruimte.'},
+    {title:'Stadsrand<br>— Napels', desc:'Een internationale werkweekcompetitie over de stedelijke toegang tot Napels. Het ontwerp stelt een gemengd openbaar gebied voor dat de aankomst viert, met culturele programmering, groene infrastructuur en dynamische openbare ontmoetingsplekken voor de diverse gemeenschappen van de stad.'},
+    {title:'Kerk Moramanga<br>— Madagascar', desc:'Jonge architecten competitieproject voor een nieuwe kerk in Moramanga, Madagascar. Het ontwerp haalt inspiratie uit lokale architectuur en gemeenschapstradities, waardoor een spiritueel en sociaal centrum ontstaat dat het snel groeiende stedelijke gebied dient.'},
+    {title:'Leiden FOODLABS', desc:'Afstudeerproject gericht op ontwerp voor demontagebaarheid en circular economy principes. FOODLABS is een modulair systeem voor stedelijke voedselproductie met verticale landbouw, gemeenschapskeukens en onderwijsruimten. Het ontwerp prioriteert materiaalhergebruik en minimaal afval.'},
+    {title:'Stage<br>— Elephant Studio', desc:'Haalbaarheidsstudies en interieurontwerp renderings voor verschillende woon- en commerciële projecten. Het werk omvatte ruimteplanning, materiaalbeschrijving, 3D-visualisatie en ontwerppresentaties voor cliënten en belanghebbenden.'},
+    {title:'Mood for Wood<br>— Vogelkijkplatform', desc:'Een gebouwde architectonische installatie langs de Warta-rivier in Poznań, Polen. Het project creëert een openbare verzamelplaats voor vogelkijken en natuurobservatie met lokaal afkomstig hout. Het ronde platformontwerp faciliteert wildlifekijken met minimale milieubelasting.'},
+    {title:'Luminary<br>— Fintech Tentoonstelling', desc:'Tentoonstellingsontwerp voor Luminary, een fintech-bedrijf. Het project creëert een meeslepende merkbeleving voor een financieel technologieevenement — ruimtelijk ontwerp, maatwerkmeubilair en verlichting leiden bezoekers door het productaanbod en de merkidentiteit.'}
+  ],
+  ru: [
+    {title:'Moving Stories<br>— Антверпен', desc:'Дипломный проект, исследующий, как архитектура может дать пространственную форму личным воспоминаниям мигрантских сообществ. Расположен в Логивег – Бликфабриек, постиндустриальном районе на юге Антверпена. Кластеры коллективного жилья вокруг общих дворов — переводя память, ритуал и сообщество в построенное пространство.'},
+    {title:'Южный въезд<br>— Неаполь', desc:'Конкурс международной недели, посвящённый городскому въезду в Неаполь. Проект предлагает смешанное общественное пространство, которое отмечает опыт прибытия, интегрируя культурное программирование, зелёную инфраструктуру и динамичные места встреч для разнообразных сообществ города.'},
+    {title:'Церковь Морамангa<br>— Мадагаскар', desc:'Проект молодых архитекторов на конкурсе проектирования новой церкви в Морамангe, Мадагаскар. Дизайн черпает вдохновение из местной архитектуры и традиций общинных собраний, создавая духовный и социальный центр, обслуживающий быстрорастущий городской район.'},
+    {title:'Leiden FOODLABS', desc:'Проект магистратуры, сосредоточенный на принципах проектирования для разборки и циклической экономики. FOODLABS — модульная система городского производства продуктов питания, сочетающая вертикальное земледелие, общественные кухни и образовательные пространства. Дизайн приоритизирует повторное использование материалов.'},
+    {title:'Стажировка<br>— Elephant Studio', desc:'Исследования технической осуществимости и рендеры интерьерного дизайна для различных жилых и коммерческих проектов. Работа включала пространственное планирование, спецификацию материалов, 3D-визуализацию и презентации дизайна для клиентов и заинтересованных сторон.'},
+    {title:'Mood for Wood<br>— Площадка для наблюдения', desc:'Построенная архитектурная инсталляция вдоль реки Варта в Познани, Польша. Проект создаёт общественное пространство для наблюдения за птицами и природой, используя местный лес. Круглая платформа облегчает наблюдение за дикой природой с минимальным воздействием на окружающую среду.'},
+    {title:'Luminary<br>— Финтех-выставка', desc:'Выставочный дизайн для компании Luminary (финтех). Проект создаёт иммерсивный брендовый опыт для мероприятия в сфере финансовых технологий — пространственный дизайн, мебель на заказ и освещение ведут посетителей через продуктовое предложение и фирменный стиль бренда.'}
+  ]
+};
+
+/* ── CARGO PROJECT NAVIGATION ── */
+const _cp = [
+  {id:'cargo-p0', label:'MOVING STORIES — 01'},
+  {id:'cargo-p1', label:'SOUTH CITY NAPLES — 02'},
+  {id:'cargo-p2', label:'MORAMANGA CHURCH — 03'},
+  {id:'cargo-p3', label:'LEIDEN FOODLABS — 04'},
+  {id:'cargo-p4', label:'ELEPHANT STUDIO — 05'},
+  {id:'cargo-p5', label:'MOOD FOR WOOD — 06'},
+  {id:'cargo-p6', label:'LUMINARY EXHIBITION — 07'}
+];
+
+function updateCargoPageLanguage(lang) {
+  const activeCargo = document.querySelector('.cargo-page-overlay.active');
+  if (!activeCargo || !cargoData || !_cp) return;
+
+  const projectIndex = _cp.findIndex(p => p.id === activeCargo.id);
+  if (projectIndex === -1) return;
+
+  const proj = cargoData[lang][projectIndex];
+  if (!proj) return;
+
+  const eyebrow = activeCargo.querySelector('.cp-eyebrow');
+  const title = activeCargo.querySelector('.cp-title');
+  const desc = activeCargo.querySelector('.cp-desc');
+
+  const eyebrowTexts = {
+    en: ['01 / 07 &nbsp;·&nbsp; Graduation Project &nbsp;·&nbsp; 2025', '02 / 07 &nbsp;·&nbsp; Competition &nbsp;·&nbsp; International Workshop &nbsp;·&nbsp; 2024', '03 / 07 &nbsp;·&nbsp; Competition &nbsp;·&nbsp; Young Architects &nbsp;·&nbsp; 2024', '04 / 07 &nbsp;·&nbsp; Academic Project &nbsp;·&nbsp; MSc 1 &nbsp;·&nbsp; 2024', '05 / 07 &nbsp;·&nbsp; Professional &nbsp;·&nbsp; Internship &nbsp;·&nbsp; 2024–2025', '06 / 07 &nbsp;·&nbsp; Workshop · Built &nbsp;·&nbsp; 2021', '07 / 07 &nbsp;·&nbsp; Exhibition Design &nbsp;·&nbsp; 2025'],
+    nl: ['01 / 07 &nbsp;·&nbsp; Afstudeerproject &nbsp;·&nbsp; 2025', '02 / 07 &nbsp;·&nbsp; Competitie &nbsp;·&nbsp; Internationale Werkweek &nbsp;·&nbsp; 2024', '03 / 07 &nbsp;·&nbsp; Competitie &nbsp;·&nbsp; Jonge Architecten &nbsp;·&nbsp; 2024', '04 / 07 &nbsp;·&nbsp; Academisch &nbsp;·&nbsp; MSc 1 &nbsp;·&nbsp; 2024', '05 / 07 &nbsp;·&nbsp; Professioneel &nbsp;·&nbsp; Stage &nbsp;·&nbsp; 2024–2025', '06 / 07 &nbsp;·&nbsp; Werkplaats · Gebouwd &nbsp;·&nbsp; 2021', '07 / 07 &nbsp;·&nbsp; Tentoonstellingsontwerp &nbsp;·&nbsp; 2025'],
+    ru: ['01 / 07 &nbsp;·&nbsp; Дипломный проект &nbsp;·&nbsp; 2025', '02 / 07 &nbsp;·&nbsp; Конкурс &nbsp;·&nbsp; Международная неделя &nbsp;·&nbsp; 2024', '03 / 07 &nbsp;·&nbsp; Конкурс &nbsp;·&nbsp; Молодые архитекторы &nbsp;·&nbsp; 2024', '04 / 07 &nbsp;·&nbsp; Учебный проект &nbsp;·&nbsp; MSc 1 &nbsp;·&nbsp; 2024', '05 / 07 &nbsp;·&nbsp; Профессиональный &nbsp;·&nbsp; Стажировка &nbsp;·&nbsp; 2024–2025', '06 / 07 &nbsp;·&nbsp; Воркшоп · Реализовано &nbsp;·&nbsp; 2021', '07 / 07 &nbsp;·&nbsp; Выставочный дизайн &nbsp;·&nbsp; 2025']
+  };
+
+  if (eyebrow) eyebrow.innerHTML = eyebrowTexts[lang][projectIndex];
+  if (title) title.innerHTML = proj.title;
+  if (desc) desc.innerHTML = proj.desc;
+}
+
+let lastScrollPos = 0;
+function openCargoProject(i) {
+  document.querySelectorAll('.cargo-page-overlay').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p => {
+    p.classList.remove('active');
+    p.style.display = 'none';
+  });
+  const overlay = document.getElementById(_cp[i].id);
+  overlay.classList.add('active');
+  overlay.scrollTop = 0;
+  lastScrollPos = 0;
+  document.getElementById('cargo-nav-frame').classList.add('active');
+  document.getElementById('cnav-proj-label').textContent = _cp[i].label;
+  updateCargoPageLanguage(currentLang);
+  const nav = document.getElementById('main-nav');
+  nav.style.position = 'relative';
+  nav.style.top = 'auto';
+  nav.style.zIndex = 'auto';
+  nav.style.transition = 'transform 0.3s ease-out';
+  nav.style.background = 'linear-gradient(to bottom, var(--baltic), transparent)';
+  nav.style.borderBottom = 'none';
+  overlay.addEventListener('scroll', function cargoScroll() {
+    const currentScroll = overlay.scrollTop;
+    if (currentScroll > lastScrollPos && currentScroll > 50) {
+      nav.style.transform = 'translateY(-100%)';
+    } else {
+      nav.style.transform = 'translateY(0)';
+    }
+    lastScrollPos = currentScroll;
+  });
+  const prev = document.getElementById('cnav-prev');
+  const next = document.getElementById('cnav-next');
+  if (i > 0) {
+    prev.textContent = '← ' + _cp[i-1].label.replace(/ — \d+$/, '');
+    prev.onclick = () => openCargoProject(i-1);
+  } else {
+    prev.textContent = '← ALL PROJECTS';
+    prev.onclick = closeCargoPage;
+  }
+  if (i < _cp.length - 1) {
+    next.textContent = _cp[i+1].label.replace(/ — \d+$/, '') + ' →';
+    next.onclick = () => openCargoProject(i+1);
+  } else {
+    next.textContent = 'ALL PROJECTS →';
+    next.onclick = closeCargoPage;
+  }
+}
+
+function closeCargoPage() {
+  document.querySelectorAll('.cargo-page-overlay').forEach(p => p.classList.remove('active'));
+  document.getElementById('cargo-nav-frame').classList.remove('active');
+  const nav = document.getElementById('main-nav');
+  nav.style.background = 'linear-gradient(to bottom, var(--baltic), var(--white))';
+  nav.style.borderBottom = '';
+  nav.style.transform = 'translateY(0)';
+  showPage('p2');
+}
+
+/* ── CAROUSEL SCROLL-DRIVE ── */
+(function() {
+  const section = document.querySelector('.intro-projects');
+  const grid    = document.querySelector('.proj-grid-5');
+  if (!section || !grid) return;
+
+  function update() {
+    if (section.offsetParent === null) return;
+    const maxT = grid.scrollWidth - grid.clientWidth;
+    if (maxT <= 0) return;
+    section.style.height = (window.innerHeight + maxT) + 'px';
+    const rect     = section.getBoundingClientRect();
+    const progress = Math.max(0, Math.min(1, -rect.top / maxT));
+    grid.style.transform = 'translateX(' + (-progress * maxT) + 'px)';
+  }
+
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  window.addEventListener('load', update);
+  setTimeout(update, 100);
+})();
+
+/* ── CONTACT FORM ── */
+window.formspree = window.formspree || function() { (formspree.q = formspree.q || []).push(arguments); };
+formspree('initForm', { formElement: '#contact-form', formId: 'mkoeenep' });
+</script>
+<script src="https://unpkg.com/@formspree/ajax@1" defer></script>
+</body>
+</html>
