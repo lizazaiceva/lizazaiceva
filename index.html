@@ -193,7 +193,7 @@ footer{background:var(--dark);padding:3.5rem 6rem;display:flex;align-items:cente
   nav{padding:1.2rem 1.5rem;flex-wrap:wrap;gap:0.5rem;}
   .nav-links{display:none;order:3;width:100%;}
   .nav-burger{display:flex;}
-  .nav-links.open{display:flex;flex-direction:column;position:fixed;top:60px;left:0;right:0;background:var(--white);padding:2rem 1.5rem;gap:1.5rem;border-bottom:0.5px solid var(--border);z-index:199;}
+  .nav-links.open{display:flex;flex-direction:column;position:fixed;top:60px;left:0;right:0;background:var(--white);padding:2rem 1.5rem;gap:1.5rem;border-bottom:0.5px solid var(--border);z-index:700;}
   .lang-switch{margin-left:auto;padding-left:0;border-left:none;}
   section,.intro-projects,.proj-list-header,.proj-list,.pd-images,.photos-row,.services-about,.contact-l,.contact-r{padding:4rem 1.5rem;}
   .hero-l{padding:4rem 1.5rem 4rem;}
@@ -1476,7 +1476,7 @@ function openCargoProject(i, fromHistory) {
   const nav = document.getElementById('main-nav');
   nav.style.position = 'relative';
   nav.style.top = 'auto';
-  nav.style.zIndex = 'auto';
+  nav.style.zIndex = '600';
   nav.style.transition = 'transform 0.3s ease-out';
   nav.style.background = 'linear-gradient(to bottom, var(--baltic), transparent)';
   nav.style.borderBottom = 'none';
