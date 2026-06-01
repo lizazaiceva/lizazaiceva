@@ -234,8 +234,13 @@ footer{background:var(--dark);padding:3.5rem 6rem;display:flex;align-items:cente
   .about-intro p{text-align:left;margin-left:0;margin-right:0;max-width:100%;font-size:0.82rem;}
   .about-stats{grid-template-columns:repeat(3,1fr);gap:1rem;}
   .photos-row{grid-template-columns:1fr 1fr;gap:1.5rem;padding:3rem 1.5rem;}
-  .srv-grid{grid-template-columns:1fr;}
-  .srv-item{border-right:none;}
+  .services-about{padding:3rem 1.5rem;}
+  .srv-grid{grid-template-columns:1fr 1fr;border:none;gap:0;}
+  .srv-item{padding:1.2rem 0.8rem;border:none;border-bottom:0.5px solid #2e2e2e;}
+  .srv-item:nth-child(odd){border-right:0.5px solid #2e2e2e;}
+  .srv-desc{display:none;}
+  .srv-num{font-size:0.7rem;margin-bottom:0.5rem;}
+  .srv-name{font-size:0.82rem;margin-bottom:0;}
   .contact-split{grid-template-columns:1fr;min-height:auto;}
   .contact-l,.contact-r{padding:2.5rem 1.5rem;}
   .fr{grid-template-columns:1fr;}
