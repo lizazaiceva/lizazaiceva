@@ -190,11 +190,12 @@ footer{background:var(--dark);padding:3.5rem 6rem;display:flex;align-items:cente
 
 /* MOBILE */
 @media(max-width:900px){
-  nav{padding:1.2rem 1.5rem;flex-wrap:wrap;gap:0.5rem;}
+  nav{padding:1.2rem 1.5rem;flex-wrap:wrap;gap:0.5rem;position:fixed !important;top:0 !important;left:0;right:0;z-index:650 !important;}
   .nav-links{display:none;order:3;width:100%;}
   .nav-burger{display:flex;}
   .nav-links.open{display:flex;flex-direction:column;position:fixed;top:60px;left:0;right:0;background:var(--white);padding:2rem 1.5rem;gap:1.5rem;border-bottom:0.5px solid var(--border);z-index:700;}
   .lang-switch{margin-left:auto;padding-left:0;border-left:none;}
+  .page{padding-top:60px;}
   section,.intro-projects,.proj-list-header,.proj-list,.pd-images,.photos-row,.services-about,.contact-l,.contact-r{padding:4rem 1.5rem;}
   .hero-l{padding:4rem 1.5rem 4rem;}
   .hero-name{font-size:clamp(2.5rem,12vw,6rem);white-space:normal;line-height:1;}
@@ -1476,7 +1477,7 @@ function openCargoProject(i, fromHistory) {
   const nav = document.getElementById('main-nav');
   nav.style.position = 'relative';
   nav.style.top = 'auto';
-  nav.style.zIndex = '600';
+  nav.style.zIndex = 'auto';
   nav.style.transition = 'transform 0.3s ease-out';
   nav.style.background = 'linear-gradient(to bottom, var(--baltic), transparent)';
   nav.style.borderBottom = 'none';
