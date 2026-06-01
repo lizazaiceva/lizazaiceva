@@ -1264,7 +1264,10 @@ function updateMarquee(lang) {
 }
 
 /* ============ PAGE & PROJECT NAVIGATION ============ */
-function showPage(id) {
+const _pageHash = {p1:'', p2:'projects', p3:'about', p4:'contact'};
+const _hashPage = {''  :'p1', 'projects':'p2', 'about':'p3', 'contact':'p4'};
+
+function showPage(id, fromHistory) {
   document.querySelectorAll('.cargo-page-overlay').forEach(p => p.classList.remove('active'));
   document.getElementById('cargo-nav-frame').classList.remove('active');
   document.querySelectorAll('.page').forEach(p => {
@@ -1293,6 +1296,10 @@ function showPage(id) {
   }
   window.scrollTo(0, 0);
   document.getElementById('nav-links').classList.remove('open');
+  if (!fromHistory) {
+    const hash = _pageHash[id];
+    history.pushState({type:'page', id}, '', hash ? '#' + hash : location.pathname.split('#')[0]);
+  }
 }
 
 function openProject(i) {
@@ -1333,7 +1340,30 @@ function handleResize() {
 window.addEventListener('resize', handleResize);
 handleResize();
 
-showPage('p1');
+/* ── ROUTING ── */
+function applyRoute(hash, fromHistory) {
+  const h = (hash || '').replace('#', '');
+  if (h.startsWith('work-')) {
+    const i = parseInt(h.split('-')[1]);
+    if (!isNaN(i) && i >= 0 && i < _cp.length) { openCargoProject(i, fromHistory); return; }
+  }
+  const id = _hashPage[h] || 'p1';
+  showPage(id, fromHistory);
+}
+
+window.addEventListener('popstate', function(e) {
+  if (e.state && e.state.type === 'cargo') { openCargoProject(e.state.index, true); }
+  else if (e.state && e.state.type === 'page') { showPage(e.state.id, true); }
+  else { applyRoute(location.hash, true); }
+});
+
+applyRoute(location.hash, true);
+history.replaceState(
+  location.hash.startsWith('#work-')
+    ? {type:'cargo', index: parseInt(location.hash.replace('#work-',''))}
+    : {type:'page', id: _hashPage[(location.hash||'').replace('#','')] || 'p1'},
+  '', location.href
+);
 setLang('en');
 
 /* ── CARGO PROJECT DATA ── */
@@ -1404,7 +1434,7 @@ function updateCargoPageLanguage(lang) {
 }
 
 let lastScrollPos = 0;
-function openCargoProject(i) {
+function openCargoProject(i, fromHistory) {
   document.querySelectorAll('.cargo-page-overlay').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.page').forEach(p => {
     p.classList.remove('active');
@@ -1417,6 +1447,7 @@ function openCargoProject(i) {
   document.getElementById('cargo-nav-frame').classList.add('active');
   document.getElementById('cnav-proj-label').textContent = _cp[i].label;
   updateCargoPageLanguage(currentLang);
+  if (!fromHistory) history.pushState({type:'cargo', index:i}, '', '#work-' + i);
   const nav = document.getElementById('main-nav');
   nav.style.position = 'relative';
   nav.style.top = 'auto';
@@ -1451,14 +1482,14 @@ function openCargoProject(i) {
   }
 }
 
-function closeCargoPage() {
+function closeCargoPage(fromHistory) {
   document.querySelectorAll('.cargo-page-overlay').forEach(p => p.classList.remove('active'));
   document.getElementById('cargo-nav-frame').classList.remove('active');
   const nav = document.getElementById('main-nav');
   nav.style.background = 'linear-gradient(to bottom, var(--baltic), var(--white))';
   nav.style.borderBottom = '';
   nav.style.transform = 'translateY(0)';
-  showPage('p2');
+  showPage('p2', fromHistory);
 }
 
 /* ── CAROUSEL SCROLL-DRIVE ── */
