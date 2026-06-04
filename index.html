@@ -1498,15 +1498,8 @@ function openCargoProject(i, fromHistory) {
   nav.style.transition = 'transform 0.3s ease-out';
   nav.style.background = 'linear-gradient(to bottom, var(--baltic), transparent)';
   nav.style.borderBottom = 'none';
-  overlay.addEventListener('scroll', function cargoScroll() {
-    const currentScroll = overlay.scrollTop;
-    if (currentScroll > lastScrollPos && currentScroll > 50) {
-      nav.style.transform = 'translateY(-100%)';
-    } else {
-      nav.style.transform = 'translateY(0)';
-    }
-    lastScrollPos = currentScroll;
-  });
+  overlay.scrollTop = 0;
+  lastScrollPos = 0;
   const prev = document.getElementById('cnav-prev');
   const next = document.getElementById('cnav-next');
   if (i > 0) {
@@ -1557,6 +1550,20 @@ function closeCargoPage(fromHistory) {
   window.addEventListener('load', update);
   setTimeout(update, 100);
 })();
+
+/* ── CARGO SCROLL NAV HIDE ── */
+document.querySelectorAll('.cargo-page-overlay').forEach(overlay => {
+  overlay.addEventListener('scroll', function() {
+    const nav = document.getElementById('main-nav');
+    const currentScroll = overlay.scrollTop;
+    if (currentScroll > lastScrollPos && currentScroll > 50) {
+      nav.style.transform = 'translateY(-100%)';
+    } else {
+      nav.style.transform = 'translateY(0)';
+    }
+    lastScrollPos = currentScroll;
+  });
+});
 
 /* ── CONTACT FORM ── */
 window.formspree = window.formspree || function() { (formspree.q = formspree.q || []).push(arguments); };
