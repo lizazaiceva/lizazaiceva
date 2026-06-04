@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://lizazaiceva.com/sitemap.xml
