@@ -1558,9 +1558,11 @@ document.querySelectorAll('.cargo-page-overlay').forEach(overlay => {
     const currentScroll = overlay.scrollTop;
     if (currentScroll > lastScrollPos && currentScroll > 50) {
       nav.style.display = 'none';
+      overlay.style.top = '0';
     } else {
       nav.style.display = 'block';
       nav.style.background = 'linear-gradient(to bottom, var(--baltic), transparent)';
+      overlay.style.top = '80px';
     }
     lastScrollPos = currentScroll;
   });
