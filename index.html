@@ -228,7 +228,8 @@ footer{background:var(--dark);padding:3.5rem 6rem;display:flex;align-items:cente
   .pd-img-box.wide{grid-column:span 1;aspect-ratio:4/3;}
   .about-hero{display:flex;flex-direction:column;height:auto;overflow:visible;}
   .about-img-wrap{height:auto;min-height:unset;overflow:visible;flex-shrink:0;}
-  .about-img-wrap img{width:100% !important;height:auto !important;object-fit:unset !important;}
+  .about-img-desktop{display:none !important;}
+  .about-img-mobile{display:block !important;width:100%;height:auto;}
   .about-intro{padding:1.5rem 1rem;overflow:visible;text-align:left;}
   .about-intro .ttl{text-align:left;font-size:clamp(1.5rem,6vw,2.5rem);margin-bottom:0.8rem;white-space:normal;}
   .about-intro p{text-align:left;margin-left:0;margin-right:0;max-width:100%;font-size:0.78rem;line-height:1.5;margin-bottom:0.6rem;}
@@ -524,7 +525,8 @@ footer{background:var(--dark);padding:3.5rem 6rem;display:flex;align-items:cente
 <div class="page" id="p3">
   <div class="about-hero">
     <div class="about-img-wrap" style="position:relative;overflow:hidden;padding:0;background:#f5f4f3;">
-      <img src="my photos/photo_5820989865586265895_y.jpg" style="height:100%;width:auto;object-fit:contain;object-position:left center;display:block;">
+      <img class="about-img-desktop" src="my photos/photo_5820989865586265895_y.jpg" style="height:100%;width:auto;object-fit:contain;object-position:left center;display:block;">
+      <img class="about-img-mobile" src="my photos/photo_portrait.jpg" style="display:none;width:100%;height:auto;object-fit:cover;">
     </div>
     <div class="about-intro">
       <span class="lbl" data-i18n="about.label">About me</span>
