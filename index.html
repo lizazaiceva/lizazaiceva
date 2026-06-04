@@ -1558,13 +1558,13 @@ function closeCargoPage(fromHistory) {
 document.querySelectorAll('.cargo-page-overlay').forEach(overlay => {
   overlay.addEventListener('scroll', function() {
     const nav = document.getElementById('main-nav');
-    if (!nav) return;
+    if (!nav || !overlay.classList.contains('active')) return;
     const currentScroll = overlay.scrollTop;
     if (currentScroll > lastScrollPos && currentScroll > 50) {
-      nav.style.display = 'none';
+      nav.style.top = '-100px';
       overlay.style.top = '0';
     } else {
-      nav.style.display = 'block';
+      nav.style.top = '0';
       overlay.style.top = '80px';
     }
     lastScrollPos = currentScroll;
