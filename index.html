@@ -1548,6 +1548,8 @@ function closeCargoPage(fromHistory) {
 })();
 
 /* ── CARGO SCROLL NAV HIDE ── */
+// Temporarily disabled - was breaking cargo pages
+/*
 document.querySelectorAll('.cargo-page-overlay').forEach(overlay => {
   overlay.addEventListener('scroll', function() {
     const nav = document.getElementById('main-nav');
@@ -1562,6 +1564,7 @@ document.querySelectorAll('.cargo-page-overlay').forEach(overlay => {
     lastScrollPos = currentScroll;
   });
 });
+*/
 
 /* ── CONTACT FORM ── */
 window.formspree = window.formspree || function() { (formspree.q = formspree.q || []).push(arguments); };
