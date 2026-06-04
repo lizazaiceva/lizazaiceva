@@ -127,8 +127,6 @@ section{padding:10rem 6rem;}
 .pd-img-ph{font-family:var(--fu);font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(114,111,112,0.5);}
 
 /* PAGE 3 — ABOUT */
-.about-img-mobile{display:none;}
-.about-img-desktop{display:block;}
 .mobile-only{display:none;}
 .about-hero{display:grid;grid-template-columns:auto 1fr;height:calc(100vh - 70px);overflow:hidden;}
 .about-img-wrap{background:#f5f4f3;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;padding:0;overflow:hidden;}
@@ -137,7 +135,7 @@ section{padding:10rem 6rem;}
 .about-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:1.5rem;padding-top:1.5rem;border-top:0.5px solid #D4D0CD;}
 .stat-n{font-family:var(--fd);font-size:2rem;letter-spacing:0.01em;color:var(--dark);line-height:1;font-weight:500;}
 .stat-l{font-family:var(--fu);font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--steel);margin-top:0.4rem;}
-.photos-row{padding:6rem;background:var(--white);display:grid;grid-template-columns:repeat(4,1fr);gap:2.5rem;}
+.photos-row{padding:0;background:var(--white);display:grid;grid-template-columns:repeat(3,1fr);gap:0;}
 .photo-box{background:#DEDAD7;aspect-ratio:3/4;display:flex;align-items:flex-end;padding:1.5rem;}
 .photo-box-lbl{font-family:var(--fu);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--steel);}
 .services-about{background:var(--dark);padding:9rem 6rem;}
@@ -231,8 +229,7 @@ footer{background:var(--dark);padding:3.5rem 6rem;display:flex;align-items:cente
   .pd-img-box.wide{grid-column:span 1;aspect-ratio:4/3;}
   .about-hero{display:flex;flex-direction:column;height:auto;overflow:visible;}
   .about-img-wrap{height:auto;min-height:unset;overflow:visible;flex-shrink:0;}
-  .about-img-desktop{display:none !important;}
-  .about-img-mobile{display:block !important;width:100%;height:auto;}
+  .about-hero-img{width:100% !important;height:auto !important;object-fit:unset !important;}
   .mobile-only{display:block;}
   .about-intro{padding:1.5rem 1rem;overflow:visible;text-align:left;}
   .about-intro .ttl{text-align:left;font-size:clamp(1.5rem,6vw,2.5rem);margin-bottom:0.8rem;white-space:normal;}
@@ -240,7 +237,7 @@ footer{background:var(--dark);padding:3.5rem 6rem;display:flex;align-items:cente
   .about-stats{grid-template-columns:repeat(3,1fr);gap:0.6rem;margin-top:0.8rem;padding-top:0.8rem;}
   .stat-n{font-size:1.4rem;}
   .stat-l{font-size:0.55rem;}
-  .photos-row{grid-template-columns:1fr 1fr;gap:0.4rem;padding:1rem 0 !important;}
+  .photos-row{grid-template-columns:1fr 1fr;gap:0.4rem;padding:0 !important;}
   .photo-box{aspect-ratio:3/4;}
   .services-about{padding:2.618rem 0.6rem !important;}
   .srv-grid{display:flex;flex-direction:column;border:none;gap:0;}
@@ -529,8 +526,7 @@ footer{background:var(--dark);padding:3.5rem 6rem;display:flex;align-items:cente
 <div class="page" id="p3">
   <div class="about-hero">
     <div class="about-img-wrap" style="position:relative;overflow:hidden;padding:0;background:#f5f4f3;">
-      <img class="about-img-desktop" src="my photos/photo_5820989865586265895_y.jpg" style="height:100%;width:auto;object-fit:contain;object-position:left center;display:block;">
-      <img class="about-img-mobile" src="my photos/photo_portrait.jpg" style="display:none;width:100%;height:auto;object-fit:cover;">
+      <img class="about-hero-img" src="my photos/photo_5820989865586265895_y.jpg" style="height:100%;width:auto;object-fit:contain;object-position:left center;display:block;">
     </div>
     <div class="about-intro">
       <span class="lbl" data-i18n="about.label">About me</span>
@@ -551,6 +547,7 @@ footer{background:var(--dark);padding:3.5rem 6rem;display:flex;align-items:cente
     <div class="photo-box" style="padding:0;overflow:hidden;"><img src="my photos/photo_5820989865586265896_y.jpg" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
     <div class="photo-box" style="padding:0;overflow:hidden;"><img src="my photos/photo_5820989865586265897_y.jpg" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
   </div>
+  <!-- desktop: 3-col grid; mobile: portrait hidden here, shown in grid above -->
   <div class="services-about">
     <span class="lbl" data-i18n="services.label">What I offer</span>
     <h2 class="ttl ttl-wh" data-i18n="services.title">SERVICES</h2>
