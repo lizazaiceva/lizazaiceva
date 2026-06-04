@@ -1493,9 +1493,9 @@ function openCargoProject(i, fromHistory) {
   updateCargoPageLanguage(currentLang);
   if (!fromHistory) history.pushState({type:'cargo', index:i}, '', '#work-' + i);
   const nav = document.getElementById('main-nav');
-  nav.style.position = 'relative';
-  nav.style.top = 'auto';
-  nav.style.zIndex = 'auto';
+  nav.style.position = 'fixed';
+  nav.style.top = '0';
+  nav.style.zIndex = '600';
   const prev = document.getElementById('cnav-prev');
   const next = document.getElementById('cnav-next');
   if (i > 0) {
