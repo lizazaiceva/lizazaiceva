@@ -1342,7 +1342,14 @@ function updateMarquee(lang) {
 const _pageHash = {p1:'', p2:'projects', p3:'about', p4:'contact'};
 const _hashPage = {''  :'p1', 'projects':'p2', 'about':'p3', 'contact':'p4'};
 
+const _pageTitles = {
+  p1: 'Liza Zaiceva — Freelance Architecture Designer | Visualisation & Spatial Design, Utrecht',
+  p2: 'Projects — Freelance Architecture & Visualisation Portfolio | Liza Zaiceva',
+  p3: 'About — Freelance Architecture Designer based in Utrecht | Liza Zaiceva',
+  p4: 'Contact — Hire a Freelance Architecture Designer | Liza Zaiceva'
+};
 function showPage(id, fromHistory) {
+  document.title = _pageTitles[id] || _pageTitles.p1;
   document.querySelectorAll('.cargo-page-overlay').forEach(p => p.classList.remove('active'));
   document.getElementById('cargo-nav-frame').classList.remove('active');
   document.querySelectorAll('.page').forEach(p => {
@@ -1525,6 +1532,7 @@ function openCargoProject(i, fromHistory) {
   document.getElementById('cargo-nav-frame').classList.add('active');
   document.getElementById('cnav-proj-label').textContent = _cp[i].label;
   updateCargoPageLanguage(currentLang);
+  document.title = _cp[i].label + ' — Liza Zaiceva | Freelance Architecture Designer Utrecht';
   if (!fromHistory) history.pushState({type:'cargo', index:i}, '', '#work-' + i);
   // Always fully reset nav to clean fixed state
   const nav = document.getElementById('main-nav');
